@@ -2,9 +2,6 @@ import "./App.css";
 
 function App() {
   const translate = () => {
-    console.log(process.env.NODE_ENV)
-    console.log(process.env.REACT_APP_RapidAPI_Key)
-    console.log(process.env.REACT_APP_test)
     const url = "https://text-translator2.p.rapidapi.com/translate";
     const options = {
       method: "POST",
