@@ -1,7 +1,12 @@
 import "./App.css";
+import React, { useState } from "react";
 
 function App() {
+  const [inputText, setInputText] = useState("")
+
+
   const translate = () => {
+    console.log(inputText)
     const url = "https://text-translator2.p.rapidapi.com/translate";
     const options = {
       method: "POST",
@@ -12,8 +17,8 @@ function App() {
       },
       body: new URLSearchParams({
         source_language: "en",
-        target_language: "id",
-        text: "What is your name?",
+        target_language: "ru",
+        text: String(inputText),
       }),
     };
     fetch(url, options)
@@ -28,7 +33,8 @@ function App() {
 
   return (
     <div className="App">
-      <p onClick={translate}>click here</p>
+      <input type="text" value={inputText} onChange={(e) => setInputText(e.target.value)}/>
+      <button onClick={translate}>Click to translate</button>
     </div>
   );
 }
