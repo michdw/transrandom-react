@@ -1,30 +1,24 @@
 import "./App.css";
 import React, { useState } from "react";
+import {translate, getLanguages} from "./TranslatorUtils"
 
-function App() {
-  const [inputText, setInputText] = useState("")
+export default function App() {
+  const [inputText, setInputText] = useState("");
 
-
-  const translate = () => {
-    console.log(inputText)
-    const url = "https://text-translator2.p.rapidapi.com/translate";
-    const options = {
-      method: "POST",
-      headers: {
-        "content-type": "application/x-www-form-urlencoded",
-        "X-RapidAPI-Key": process.env.REACT_APP_RapidAPI_Key,
-        "X-RapidAPI-Host": "text-translator2.p.rapidapi.com",
-      },
-      body: new URLSearchParams({
-        source_language: "en",
-        target_language: "ru",
-        text: String(inputText),
-      }),
-    };
-    fetch(url, options)
-      .then((response) => response.json())
+  const handleTranslate = () => {
+    translate(inputText)
       .then((response) => {
-        console.log(response)
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleGetLanguages = () => {
+    getLanguages()
+      .then((response) => {
+        console.log(response);
       })
       .catch((err) => {
         console.log(err);
@@ -33,10 +27,13 @@ function App() {
 
   return (
     <div className="App">
-      <input type="text" value={inputText} onChange={(e) => setInputText(e.target.value)}/>
-      <button onClick={translate}>Click to translate</button>
+      <input
+        type="text"
+        value={inputText}
+        onChange={(e) => setInputText(e.target.value)}
+      />
+      <button onClick={handleTranslate}>Click to translate</button>
+      <button onClick={handleGetLanguages}>print languages</button>
     </div>
   );
 }
-
-export default App;
