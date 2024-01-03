@@ -1,9 +1,10 @@
 import "./App.css";
-import React, { useState } from "react";
-import {translate, getLanguages} from "./TranslatorUtils"
+import React, { useEffect, useState } from "react";
+import { translate, getLanguages } from "./TranslatorUtils";
 
 export default function App() {
   const [inputText, setInputText] = useState("");
+  const [languageNames, setLanguageNames] = useState("unset");
 
   const handleTranslate = () => {
     translate(inputText)
@@ -19,10 +20,21 @@ export default function App() {
     getLanguages()
       .then((response) => {
         console.log(response);
+        setLanguageNames(languageList(response.data.languages));
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const languageList = (languages) => {
+    return (
+      <ul>
+        {languages.map((lang) => (
+          <li>{lang.name}</li>
+        ))}
+      </ul>
+    );
   };
 
   return (
@@ -34,6 +46,7 @@ export default function App() {
       />
       <button onClick={handleTranslate}>Click to translate</button>
       <button onClick={handleGetLanguages}>print languages</button>
+      {languageNames}
     </div>
   );
 }
