@@ -4,9 +4,11 @@ import { translate, getLanguages } from "./TranslatorUtils";
 
 export default function App() {
   const [inputText, setInputText] = useState("");
-  const [indexes, setIndexes] = useState([])
-  const [optionQty, setOptionQty] = useState(5)
+  const [indexes, setIndexes] = useState([]);
+  const [optionQty, setOptionQty] = useState(5);
+  const [allLanguages, setAllLanguages] = useState();
 
+  useEffect(() => handleGetLanguages(), [])
 
   const handleTranslate = () => {
     translate(inputText)
@@ -21,7 +23,8 @@ export default function App() {
   const handleGetLanguages = () => {
     getLanguages()
       .then((response) => {
-        getOptions(response.data.languages, optionQty)
+        setAllLanguages(response.data.languages);
+        getOptions(allLanguages, optionQty);
       })
       .catch((err) => {
         console.log(err);
@@ -29,15 +32,25 @@ export default function App() {
   };
 
   const getOptions = (languages, qty) => {
-    let range = languages.length
-    let newIndexes = []
-    while(newIndexes.length < qty) {
-      let r = Math.floor(Math.random() * range)
-      newIndexes.push(r)
+    let range = languages.length;
+    let newIndexes = [];
+    while (newIndexes.length < qty) {
+      let r = Math.floor(Math.random() * range);
+      newIndexes.push(r);
     }
-    console.log(newIndexes)
-    setIndexes(newIndexes)
-  }
+    console.log(newIndexes);
+    setIndexes(newIndexes);
+  };
+
+  const getCodes = () => {
+    return (
+      <ul>
+        {indexes.map((i) => {
+          return <li>{allLanguages[i].code}</li>;
+        })}
+      </ul>
+    );
+  };
 
   const languageList = (languages) => {
     return (
@@ -57,9 +70,8 @@ export default function App() {
         onChange={(e) => setInputText(e.target.value)}
       />
       <button onClick={handleTranslate}>Click to translate</button>
-      <button onClick={handleGetLanguages}>print languages</button>
+      <button onClick={handleGetLanguages}>Print indexes</button>
       {/* <p>{languageNames}</p> */}
-      
     </div>
   );
 }
