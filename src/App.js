@@ -4,7 +4,9 @@ import { translate, getLanguages } from "./TranslatorUtils";
 
 export default function App() {
   const [inputText, setInputText] = useState("");
-  const [languageNames, setLanguageNames] = useState("unset");
+  const [indexes, setIndexes] = useState([])
+  const [optionQty, setOptionQty] = useState(5)
+
 
   const handleTranslate = () => {
     translate(inputText)
@@ -19,13 +21,23 @@ export default function App() {
   const handleGetLanguages = () => {
     getLanguages()
       .then((response) => {
-        console.log(response);
-        setLanguageNames(languageList(response.data.languages));
+        getOptions(response.data.languages, optionQty)
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  const getOptions = (languages, qty) => {
+    let range = languages.length
+    let newIndexes = []
+    while(newIndexes.length < qty) {
+      let r = Math.floor(Math.random() * range)
+      newIndexes.push(r)
+    }
+    console.log(newIndexes)
+    setIndexes(newIndexes)
+  }
 
   const languageList = (languages) => {
     return (
@@ -46,7 +58,8 @@ export default function App() {
       />
       <button onClick={handleTranslate}>Click to translate</button>
       <button onClick={handleGetLanguages}>print languages</button>
-      {languageNames}
+      {/* <p>{languageNames}</p> */}
+      
     </div>
   );
 }
