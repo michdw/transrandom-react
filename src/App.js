@@ -3,12 +3,18 @@ import React, { useEffect, useState } from "react";
 import { translate, getLanguages } from "./TranslatorUtils";
 
 export default function App() {
+  //state
   const [inputText, setInputText] = useState("");
-  const [indexes, setIndexes] = useState([]);
-  const [optionQty, setOptionQty] = useState(5);
-  const [allLanguages, setAllLanguages] = useState();
 
-  useEffect(() => handleGetLanguages(), [])
+  const dataFetchedRef = React.useRef(false);
+
+  //api
+  useEffect(() => {
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+    handleGetLanguages();
+  }, []);
+
 
   const handleTranslate = () => {
     translate(inputText)
@@ -23,55 +29,23 @@ export default function App() {
   const handleGetLanguages = () => {
     getLanguages()
       .then((response) => {
-        setAllLanguages(response.data.languages);
-        getOptions(allLanguages, optionQty);
+        console.log(response);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const getOptions = (languages, qty) => {
-    let range = languages.length;
-    let newIndexes = [];
-    while (newIndexes.length < qty) {
-      let r = Math.floor(Math.random() * range);
-      newIndexes.push(r);
-    }
-    console.log(newIndexes);
-    setIndexes(newIndexes);
-  };
-
-  const getCodes = () => {
-    return (
-      <ul>
-        {indexes.map((i) => {
-          return <li>{allLanguages[i].code}</li>;
-        })}
-      </ul>
-    );
-  };
-
-  const languageList = (languages) => {
-    return (
-      <ul>
-        {languages.map((lang) => (
-          <li>{lang.name}</li>
-        ))}
-      </ul>
-    );
-  };
-
   return (
     <div className="App">
+      
       <input
         type="text"
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
       />
       <button onClick={handleTranslate}>Click to translate</button>
-      <button onClick={handleGetLanguages}>Print indexes</button>
-      {/* <p>{languageNames}</p> */}
+
     </div>
   );
 }
