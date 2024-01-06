@@ -5,14 +5,14 @@ const apiHeaders = {
     "X-RapidAPI-Host": "text-translator2.p.rapidapi.com",
   };
   
-  const translate = (inputText) => {
+  const translate = (inputText, targetCode) => {
     const url = "https://text-translator2.p.rapidapi.com/translate";
     const options = {
       method: "POST",
       headers: apiHeaders,
       body: new URLSearchParams({
         source_language: "en",
-        target_language: "ru",
+        target_language: targetCode,
         text: String(inputText),
       }),
     };

@@ -6,7 +6,7 @@ export default function App() {
   //state
   const [inputText, setInputText] = useState("");
   const [allLanguages, setAllLanguages] = useState()
-  const [indexes, setIndexes] = useState()
+  const [options, setOptions] = useState()
   const [optionCount, setOptionCount] = useState(5)
 
   const dataFetchedRef = useRef(false);
@@ -20,12 +20,12 @@ export default function App() {
 
   useEffect(() => {
     if (allLanguages) {
-      getIndexes();
+      getOptions();
     } 
   }, [allLanguages]);
 
   const handleTranslate = () => {
-    translate(inputText)
+    translate(inputText, selectTargetLanguage().code)
       .then((response) => {
         console.log(response);
       })
@@ -44,26 +44,30 @@ export default function App() {
       });
   };
 
-  function getIndexes() {
-    let arr = []
-    for(let i = 0; i < optionCount; i++) {
+  //
+
+  function getOptions() {
+    let indexes = []
+    while(indexes.length < optionCount) {
       let n = Math.floor(Math.random() * allLanguages.length)
-      arr.indexOf(n) == -1 && arr.push(n)
+      indexes.indexOf(n) === -1 && indexes.push(n)
     }
-    setIndexes(arr)
+    let objects = []
+    for(let i = 0; i < optionCount; i++) {
+      let j = indexes[i]
+      objects.push(allLanguages[j])
+    }
+    setOptions(objects)
+  }
+
+  function selectTargetLanguage() {
+    let i = Math.floor(Math.random() * options.length)
+    return options[i]
   }
 
 
-  function printLanguages() {
-    console.log(allLanguages)
-  }
-
-  function printOptionCount() {
-    console.log(optionCount)
-  }
-
-  function printIndexes() {
-    console.log(indexes)
+  function printOptions() {
+    console.log(options)
   }
 
 
@@ -78,9 +82,7 @@ export default function App() {
       <button onClick={handleTranslate}>Click to translate</button>
 
       <div>
-        <button onClick={printLanguages}>print languages</button>
-        <button onClick={printOptionCount}>print option count</button>
-        <button onClick={printIndexes}>print indexes</button>
+        <button onClick={printOptions}>print options</button>
       </div>
 
     </div>
