@@ -11,7 +11,7 @@ const apiHeaders = {
       method: "POST",
       headers: apiHeaders,
       body: new URLSearchParams({
-        source_language: "en",
+        source_language: "auto",
         target_language: targetCode,
         text: String(inputText),
       }),
