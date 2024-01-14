@@ -28,6 +28,7 @@ export default function App() {
 
   const handleTranslate = () => {
     if (!gameActive) setGameActive(true);
+    getOptions()
     translate(inputText, selectTargetLanguage().code)
       .then((response) => {
         console.log(response.data.translatedText);
