@@ -5,7 +5,7 @@ const apiHeaders = {
     "X-RapidAPI-Host": "text-translator2.p.rapidapi.com",
   };
   
-  const translate = (inputText, targetCode) => {
+  const callTranslate = (inputText, targetCode) => {
     const url = "https://text-translator2.p.rapidapi.com/translate";
     const options = {
       method: "POST",
@@ -23,7 +23,7 @@ const apiHeaders = {
       });
   };
   
-  const getLanguages = () => {
+  const callGetLanguages = () => {
     const url = "https://text-translator2.p.rapidapi.com/getLanguages";
     const options = {
       method: "GET",
@@ -36,4 +36,4 @@ const apiHeaders = {
       });
   };
   
-  export { translate, getLanguages };
+  export { callTranslate, callGetLanguages };

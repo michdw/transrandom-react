@@ -1,11 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "./App.css";
 import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
-import { translate, getLanguages } from "./TranslatorUtils";
+import { callTranslate, callGetLanguages } from "./TranslatorUtils";
 
 export default function App() {
   //state
   const [allLanguages, setAllLanguages] = useState();
-  const [options, setOptions] = useState();
+  const [languageOptions, setLanguageOptions] = useState();
+  const [targetLanguage, setTargetLanguage] = useState();
   const [optionCount, setOptionCount] = useState(5);
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
@@ -13,34 +15,15 @@ export default function App() {
 
   const dataFetchedRef = useRef(false);
 
-  //api
+  //get languages on load
   useEffect(() => {
     if (dataFetchedRef.current) return;
     dataFetchedRef.current = true;
     handleGetLanguages();
   }, []);
 
-  useEffect(() => {
-    if (allLanguages) {
-      getOptions();
-    }
-  }, [allLanguages]);
-
-  const handleTranslate = () => {
-    if (!gameActive) setGameActive(true);
-    getOptions()
-    translate(inputText, selectTargetLanguage().code)
-      .then((response) => {
-        console.log(response.data.translatedText);
-        setOutputText(response.data.translatedText);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   const handleGetLanguages = () => {
-    getLanguages()
+    callGetLanguages()
       .then((response) => {
         setAllLanguages(response.data.languages);
       })
@@ -49,28 +32,22 @@ export default function App() {
       });
   };
 
-  const outputPanel = () => {
-    return (
-      <div>
-        <strong>{outputText}</strong>
-      </div>
+  //translate sequence
+  useEffect(() => {
+    if (languageOptions) {
+      console.log(languageOptions);
+      getTargetLanguage();
+    }
+  }, [languageOptions]);
 
-      // <p>output</p>
-    );
-  };
+  useEffect(() => {
+    if (targetLanguage) {
+      console.log(targetLanguage)
+      handleTranslate();
+    }
+  }, [targetLanguage]);
 
-  const optionPanel = () => {
-    return (
-      <ul>
-        {options &&
-          options.map((option) => <li key={option.name}>{option.name}</li>)}
-      </ul>
-    );
-  };
-
-  //
-
-  function getOptions() {
+  function getLanguageOptions() {
     let indexes = [];
     while (indexes.length < optionCount) {
       let n = Math.floor(Math.random() * allLanguages.length);
@@ -81,13 +58,46 @@ export default function App() {
       let j = indexes[i];
       objects.push(allLanguages[j]);
     }
-    setOptions(objects);
+    setLanguageOptions(objects);
   }
 
-  function selectTargetLanguage() {
-    let i = Math.floor(Math.random() * options.length);
-    return options[i];
+  function getTargetLanguage() {
+    let i = Math.floor(Math.random() * languageOptions.length);
+    setTargetLanguage(languageOptions[i]);
   }
+
+  function handleTranslate () {
+    if (!gameActive) setGameActive(true);
+    callTranslate(inputText, targetLanguage.code)
+      .then((response) => {
+        console.log(response.data.translatedText);
+        setOutputText(response.data.translatedText);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // elements
+
+  const outputPanel = () => {
+    return (
+      <div>
+        <strong>{outputText}</strong>
+      </div>
+    );
+  };
+
+  const optionPanel = () => {
+    return (
+      <ul>
+        {languageOptions &&
+          languageOptions.map((option) => (
+            <li key={option.name}>{option.name}</li>
+          ))}
+      </ul>
+    );
+  };
 
   return (
     <div className="App">
@@ -96,7 +106,7 @@ export default function App() {
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
       />
-      <button disabled={inputText.length < 2} onClick={handleTranslate}>
+      <button disabled={inputText.length < 2} onClick={getLanguageOptions}>
         Click to translate
       </button>
       {gameActive && outputPanel()}
