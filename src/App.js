@@ -1,17 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "./App.css";
-import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { callTranslate, callGetLanguages } from "./TranslatorUtils";
 
 export default function App() {
   //state
   const [allLanguages, setAllLanguages] = useState();
+  const [optionCount, setOptionCount] = useState(5);
   const [languageOptions, setLanguageOptions] = useState();
   const [targetLanguage, setTargetLanguage] = useState();
-  const [optionCount, setOptionCount] = useState(5);
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
-  const [gameActive, setGameActive] = useState(false);
+  const [currentStage, setCurrentStage] = useState("pre");
 
   const dataFetchedRef = useRef(false);
 
@@ -25,6 +25,7 @@ export default function App() {
   const handleGetLanguages = () => {
     callGetLanguages()
       .then((response) => {
+        console.log(response)
         setAllLanguages(response.data.languages);
       })
       .catch((err) => {
@@ -42,7 +43,7 @@ export default function App() {
 
   useEffect(() => {
     if (targetLanguage) {
-      console.log(targetLanguage)
+      console.log(targetLanguage);
       handleTranslate();
     }
   }, [targetLanguage]);
@@ -66,17 +67,20 @@ export default function App() {
     setTargetLanguage(languageOptions[i]);
   }
 
-  function handleTranslate () {
-    if (!gameActive) setGameActive(true);
+  function handleTranslate() {
+    setCurrentStage("mid");
     callTranslate(inputText, targetLanguage.code)
       .then((response) => {
-        console.log(response.data.translatedText);
         setOutputText(response.data.translatedText);
       })
       .catch((err) => {
         console.log(err);
       });
-  };
+  }
+
+  function newGuess() {
+    setCurrentStage("pre");
+  }
 
   // elements
 
@@ -99,6 +103,10 @@ export default function App() {
     );
   };
 
+  const newGuessBtn = () => {
+      <button onClick={newGuess}>Guess again</button>
+  }
+
   return (
     <div className="App">
       <input
@@ -106,11 +114,13 @@ export default function App() {
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
       />
-      <button disabled={inputText.length < 2} onClick={getLanguageOptions}>
+      <button disabled={inputText.length < 2 || currentStage !== "pre"} onClick={getLanguageOptions}>
         Click to translate
       </button>
-      {gameActive && outputPanel()}
-      {gameActive && optionPanel()}
+      {currentStage === "mid" && outputPanel()}
+      {currentStage === "mid" && optionPanel()}
+      {currentStage === "post" && newGuessBtn()}
     </div>
+      
   );
 }
