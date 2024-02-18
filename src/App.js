@@ -8,10 +8,11 @@ export default function App() {
   const [allLanguages, setAllLanguages] = useState();
   const [optionCount, setOptionCount] = useState(5);
   const [languageOptions, setLanguageOptions] = useState();
+  const [selectedOption, setSelectedOption] = useState();
   const [targetLanguage, setTargetLanguage] = useState();
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
-  const [currentStage, setCurrentStage] = useState("pre");
+  const [currentStage, setCurrentStage] = useState(0);
 
   const dataFetchedRef = useRef(false);
 
@@ -20,12 +21,13 @@ export default function App() {
     if (dataFetchedRef.current) return;
     dataFetchedRef.current = true;
     handleGetLanguages();
+    console.log(currentStage);
   }, []);
 
   const handleGetLanguages = () => {
     callGetLanguages()
       .then((response) => {
-        console.log(response)
+        console.log(response);
         setAllLanguages(response.data.languages);
       })
       .catch((err) => {
@@ -68,7 +70,7 @@ export default function App() {
   }
 
   function handleTranslate() {
-    setCurrentStage("mid");
+    setCurrentStage(1);
     callTranslate(inputText, targetLanguage.code)
       .then((response) => {
         setOutputText(response.data.translatedText);
@@ -78,34 +80,85 @@ export default function App() {
       });
   }
 
+  //
+
   function newGuess() {
-    setCurrentStage("pre");
+    setCurrentStage(0);
+    setLanguageOptions(null);
+    setSelectedOption(null);
+    setTargetLanguage(null);
+    setInputText("");
+    setOutputText("");
+  }
+
+  function selectOption(option) {
+    setSelectedOption(option);
+    console.log(option.code);
+  }
+
+  function submitGuess(selectedOption) {
+    setCurrentStage(2);
+    console.log(
+      selectedOption.code === targetLanguage.code
+        ? "correct"
+        : "sorry, the correct answer was" + targetLanguage.name
+    );
   }
 
   // elements
 
-  const outputPanel = () => {
+  const translateButton = () => {
     return (
-      <div>
-        <strong>{outputText}</strong>
-      </div>
+      <button
+        disabled={inputText.length < 2 || currentStage !== 0}
+        onClick={getLanguageOptions}
+      >
+        Click to translate
+      </button>
     );
   };
 
   const optionPanel = () => {
     return (
-      <ul>
-        {languageOptions &&
-          languageOptions.map((option) => (
-            <li key={option.name}>{option.name}</li>
-          ))}
-      </ul>
+      <div>
+        <div>
+          <strong>{outputText}</strong>
+        </div>
+        <ul>
+          {languageOptions &&
+            languageOptions.map((option) => (
+              <div key={option.code}>
+                <input
+                  disabled={currentStage !== 1}
+                  type="radio"
+                  name="languageOption"
+                  value={option.name}
+                  onClick={() => selectOption(option)}
+                />
+                <label htmlFor={option.name}>{option.name}</label>
+                <br />
+              </div>
+            ))}
+        </ul>
+      </div>
+    );
+  };
+
+  const submitButton = () => {
+    return (
+      <button
+        disabled={!selectedOption}
+        type="submit"
+        onClick={() => submitGuess(selectedOption)}
+      >
+        Submit guess
+      </button>
     );
   };
 
   const newGuessBtn = () => {
-      <button onClick={newGuess}>Guess again</button>
-  }
+    return <button onClick={newGuess}>Play again</button>;
+  };
 
   return (
     <div className="App">
@@ -114,13 +167,10 @@ export default function App() {
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
       />
-      <button disabled={inputText.length < 2 || currentStage !== "pre"} onClick={getLanguageOptions}>
-        Click to translate
-      </button>
-      {currentStage === "mid" && outputPanel()}
-      {currentStage === "mid" && optionPanel()}
-      {currentStage === "post" && newGuessBtn()}
+      {currentStage === 0 && translateButton()}
+      {optionPanel()}
+      {currentStage === 1 && submitButton()}
+      {currentStage === 2 && newGuessBtn()}
     </div>
-      
   );
 }
