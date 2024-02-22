@@ -13,6 +13,7 @@ export default function App() {
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
   const [currentStage, setCurrentStage] = useState(0);
+  const [answerCorrect, setAnswerCorrect] = useState(Boolean);
 
   const dataFetchedRef = useRef(false);
 
@@ -98,10 +99,8 @@ export default function App() {
 
   function submitGuess(selectedOption) {
     setCurrentStage(2);
-    console.log(
-      selectedOption.code === targetLanguage.code
-        ? "correct"
-        : "sorry, the correct answer was" + targetLanguage.name
+    setAnswerCorrect(
+      selectedOption.code === targetLanguage.code ? true : false
     );
   }
 
@@ -156,6 +155,10 @@ export default function App() {
     );
   };
 
+  const resultMessage = () => {
+    return answerCorrect ? <div>correct!</div> : <div>sorry, the correct answer was {targetLanguage.name}</div>;
+  };
+
   const newGuessBtn = () => {
     return <button onClick={newGuess}>Play again</button>;
   };
@@ -170,6 +173,7 @@ export default function App() {
       {currentStage === 0 && translateButton()}
       {optionPanel()}
       {currentStage === 1 && submitButton()}
+      {currentStage === 2 && resultMessage()}
       {currentStage === 2 && newGuessBtn()}
     </div>
   );
