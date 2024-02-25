@@ -12,8 +12,9 @@ export default function App() {
   const [targetLanguage, setTargetLanguage] = useState();
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
-  const [currentStage, setCurrentStage] = useState(0);
+  const [gameStage, setGameStage] = useState(0);
   const [answerCorrect, setAnswerCorrect] = useState(Boolean);
+  const [score, setScore] = useState([0,0])
 
   const dataFetchedRef = useRef(false);
 
@@ -22,7 +23,7 @@ export default function App() {
     if (dataFetchedRef.current) return;
     dataFetchedRef.current = true;
     handleGetLanguages();
-    console.log(currentStage);
+    console.log(gameStage);
   }, []);
 
   const handleGetLanguages = () => {
@@ -71,7 +72,7 @@ export default function App() {
   }
 
   function handleTranslate() {
-    setCurrentStage(1);
+    setGameStage(1);
     callTranslate(inputText, targetLanguage.code)
       .then((response) => {
         setOutputText(response.data.translatedText);
@@ -84,7 +85,7 @@ export default function App() {
   //
 
   function newGuess() {
-    setCurrentStage(0);
+    setGameStage(0);
     setLanguageOptions(null);
     setSelectedOption(null);
     setTargetLanguage(null);
@@ -98,10 +99,11 @@ export default function App() {
   }
 
   function submitGuess(selectedOption) {
-    setCurrentStage(2);
+    setGameStage(2);
     setAnswerCorrect(
       selectedOption.code === targetLanguage.code ? true : false
     );
+    // setScore((origScore) => {return answerCorrect ? [origScore[0]++, origScore[1]++] : [origScore[0], origScore[1]++]})
   }
 
   // elements
@@ -109,7 +111,7 @@ export default function App() {
   const translateButton = () => {
     return (
       <button
-        disabled={inputText.length < 2 || currentStage !== 0}
+        disabled={inputText.length < 2 || gameStage !== 0}
         onClick={getLanguageOptions}
       >
         Click to translate
@@ -128,7 +130,7 @@ export default function App() {
             languageOptions.map((option) => (
               <div key={option.code}>
                 <input
-                  disabled={currentStage !== 1}
+                  disabled={gameStage !== 1}
                   type="radio"
                   name="languageOption"
                   value={option.name}
@@ -163,6 +165,7 @@ export default function App() {
     return <button onClick={newGuess}>Play again</button>;
   };
 
+
   return (
     <div className="App">
       <input
@@ -170,11 +173,12 @@ export default function App() {
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
       />
-      {currentStage === 0 && translateButton()}
+      {gameStage === 0 && translateButton()}
       {optionPanel()}
-      {currentStage === 1 && submitButton()}
-      {currentStage === 2 && resultMessage()}
-      {currentStage === 2 && newGuessBtn()}
+      {gameStage === 1 && submitButton()}
+      {gameStage === 2 && resultMessage()}
+      {gameStage === 2 && newGuessBtn()}
+      <div>{score[0]} out of {score[1]} correct</div>
     </div>
   );
 }
