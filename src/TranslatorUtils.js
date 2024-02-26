@@ -1,7 +1,7 @@
 // Import any necessary modules or constants here
 const apiHeaders = {
   "content-type": "application/x-www-form-urlencoded",
-  "X-RapidAPI-Key": "c170c8462dmshe05678b2397b2dfp1fcae3jsn638e4f1e2659",
+  "X-RapidAPI-Key": process.env.REACT_APP_RapidAPI_Key,
   "X-RapidAPI-Host": "text-translator2.p.rapidapi.com",
 };
 
