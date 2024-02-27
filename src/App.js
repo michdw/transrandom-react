@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "./App.css";
-import React, { useEffect, useState, useRef, useImperativeHandle } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { callTranslate, callGetLanguages } from "./TranslatorUtils";
 
 export default function App() {
@@ -20,7 +20,7 @@ export default function App() {
   const dataFetchedRef = useRef(false);
 
   //get languages on load
-  
+
   useEffect(() => {
     if (dataFetchedRef.current) return;
     dataFetchedRef.current = true;
