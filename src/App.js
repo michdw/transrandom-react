@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "./App.css";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useImperativeHandle } from "react";
 import { callTranslate, callGetLanguages } from "./TranslatorUtils";
 
 export default function App() {
@@ -14,16 +14,17 @@ export default function App() {
   const [outputText, setOutputText] = useState("");
   const [gameStage, setGameStage] = useState(0);
   const [answerCorrect, setAnswerCorrect] = useState(Boolean);
-  const [score] = useState([0,0])
+  const [score, setScore] = useState(0);
+  const [guesses, setGuesses] = useState(0);
 
   const dataFetchedRef = useRef(false);
 
   //get languages on load
+  
   useEffect(() => {
     if (dataFetchedRef.current) return;
     dataFetchedRef.current = true;
     handleGetLanguages();
-    console.log(gameStage);
   }, []);
 
   const handleGetLanguages = () => {
@@ -38,6 +39,7 @@ export default function App() {
   };
 
   //translate sequence
+
   useEffect(() => {
     if (languageOptions) {
       console.log(languageOptions);
@@ -82,20 +84,14 @@ export default function App() {
       });
   }
 
-  //
+  // guess submission
 
-  function newGuess() {
-    setGameStage(0);
-    setLanguageOptions(null);
-    setSelectedOption(null);
-    setTargetLanguage(null);
-    setInputText("");
-    setOutputText("");
-  }
+  useEffect(() => {
+    setScore((prevScore) => (answerCorrect ? prevScore + 1 : prevScore));
+  }, [guesses]);
 
   function selectOption(option) {
     setSelectedOption(option);
-    console.log(option.code);
   }
 
   function submitGuess(selectedOption) {
@@ -103,7 +99,16 @@ export default function App() {
     setAnswerCorrect(
       selectedOption.code === targetLanguage.code ? true : false
     );
-    // setScore((origScore) => {return answerCorrect ? [origScore[0]++, origScore[1]++] : [origScore[0], origScore[1]++]})
+    setGuesses((prevGuesses) => prevGuesses + 1);
+  }
+
+  function playAgain() {
+    setGameStage(0);
+    setLanguageOptions(null);
+    setSelectedOption(null);
+    setTargetLanguage(null);
+    setInputText("");
+    setOutputText("");
   }
 
   // elements
@@ -158,13 +163,16 @@ export default function App() {
   };
 
   const resultMessage = () => {
-    return answerCorrect ? <div>correct!</div> : <div>sorry, the correct answer was {targetLanguage.name}</div>;
+    return answerCorrect ? (
+      <div>correct!</div>
+    ) : (
+      <div>sorry, the correct answer was {targetLanguage.name}</div>
+    );
   };
 
-  const newGuessBtn = () => {
-    return <button onClick={newGuess}>Play again</button>;
+  const playAgainBtn = () => {
+    return <button onClick={playAgain}>Play again</button>;
   };
-
 
   return (
     <div className="App">
@@ -177,8 +185,10 @@ export default function App() {
       {optionPanel()}
       {gameStage === 1 && submitButton()}
       {gameStage === 2 && resultMessage()}
-      {gameStage === 2 && newGuessBtn()}
-      <div>{score[0]} out of {score[1]} correct</div>
+      {gameStage === 2 && playAgainBtn()}
+      <div>
+        {score} out of {guesses} correct
+      </div>
     </div>
   );
 }
