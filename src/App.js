@@ -6,7 +6,7 @@ import { callTranslate, callGetLanguages } from "./TranslatorUtils";
 export default function App() {
   //state
   const [allLanguages, setAllLanguages] = useState();
-  const [optionCount, setOptionCount] = useState(5);
+  const [optionCount] = useState(5);
   const [languageOptions, setLanguageOptions] = useState();
   const [selectedOption, setSelectedOption] = useState();
   const [targetLanguage, setTargetLanguage] = useState();
@@ -14,7 +14,7 @@ export default function App() {
   const [outputText, setOutputText] = useState("");
   const [gameStage, setGameStage] = useState(0);
   const [answerCorrect, setAnswerCorrect] = useState(Boolean);
-  const [score, setScore] = useState([0,0])
+  const [score] = useState([0,0])
 
   const dataFetchedRef = useRef(false);
 
