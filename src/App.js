@@ -18,6 +18,7 @@ export default function App() {
   const [guesses, setGuesses] = useState(0);
 
   const dataFetchedRef = useRef(false);
+  const inputRef = useRef(null);
 
   //get languages on load
 
@@ -42,14 +43,14 @@ export default function App() {
 
   useEffect(() => {
     if (languageOptions) {
-      console.log(languageOptions);
+      // console.log(languageOptions);
       getTargetLanguage();
     }
   }, [languageOptions]);
 
   useEffect(() => {
     if (targetLanguage) {
-      console.log(targetLanguage);
+      // console.log(targetLanguage);
       handleTranslate();
     }
   }, [targetLanguage]);
@@ -74,10 +75,20 @@ export default function App() {
   }
 
   function handleTranslate() {
-    setGameStage(1);
     callTranslate(inputText, targetLanguage.code)
       .then((response) => {
-        setOutputText(response.data.translatedText);
+        let comparativeText = response.data.translatedText.toLowerCase();
+        if (response.data.detectedSourceLanguage.code !== "en") {
+          setInputText("");
+          setGameStage(-1);
+        } else if (inputText.toLowerCase() === comparativeText) {
+          // if output text is identical to input text, reassign the target language and re-translate
+          getTargetLanguage();
+        }
+        else {
+          setGameStage(1);
+          setOutputText(response.data.translatedText);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -174,21 +185,34 @@ export default function App() {
     return <button onClick={playAgain}>Play again</button>;
   };
 
-  return (
-    <div className="App">
-      <input
-        type="text"
-        value={inputText}
-        onChange={(e) => setInputText(e.target.value)}
-      />
-      {gameStage === 0 && translateButton()}
-      {optionPanel()}
-      {gameStage === 1 && submitButton()}
-      {gameStage === 2 && resultMessage()}
-      {gameStage === 2 && playAgainBtn()}
+  const scoreboard = () => {
+    return (
       <div>
         {score} out of {guesses} correct
       </div>
+    );
+  };
+
+  return (
+    <div className="App">
+      {gameStage === 0 && <div>Type an English word or phrase:</div>}
+      <input
+        ref={inputRef}
+        disabled={gameStage > 0}
+        type="text"
+        value={inputText}
+        onChange={(e) => {
+          setGameStage(0);
+          setInputText(e.target.value);
+        }}
+      />
+      {gameStage < 1 && translateButton()}
+      {gameStage === -1 && <span>text wasn't detected to be English- try again</span>}
+      {gameStage > 0 && optionPanel()}
+      {gameStage === 1 && submitButton()}
+      {gameStage === 2 && resultMessage()}
+      {gameStage === 2 && playAgainBtn()}
+      {guesses > 0 && scoreboard()}
     </div>
   );
 }
