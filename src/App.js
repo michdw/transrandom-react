@@ -16,6 +16,7 @@ export default function App() {
   const [answerCorrect, setAnswerCorrect] = useState(Boolean);
   const [score, setScore] = useState(0);
   const [guesses, setGuesses] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const dataFetchedRef = useRef(false);
   const inputRef = useRef(null);
@@ -75,6 +76,7 @@ export default function App() {
   }
 
   function handleTranslate() {
+    setLoading(true);
     callTranslate(inputText, targetLanguage.code)
       .then((response) => {
         let comparativeText = response.data.translatedText.toLowerCase();
@@ -86,6 +88,7 @@ export default function App() {
           getTargetLanguage();
         }
         else {
+          setLoading(false);
           setGameStage(1);
           setOutputText(response.data.translatedText);
         }
@@ -213,6 +216,7 @@ export default function App() {
       {gameStage === 2 && resultMessage()}
       {gameStage === 2 && playAgainBtn()}
       {guesses > 0 && scoreboard()}
+      {loading && <div>loading</div>}
     </div>
   );
 }
