@@ -32,8 +32,9 @@ export default function App() {
   const handleGetLanguages = () => {
     callGetLanguages()
       .then((response) => {
+        response = response.slice(1);
         console.log(response);
-        setAllLanguages(response.data.languages);
+        setAllLanguages(response);
       })
       .catch((err) => {
         console.log(err);
@@ -68,6 +69,7 @@ export default function App() {
       objects.push(allLanguages[j]);
     }
     setLanguageOptions(objects);
+    console.log(objects);
   }
 
   function getTargetLanguage() {
@@ -79,18 +81,16 @@ export default function App() {
     setLoading(true);
     callTranslate(inputText, targetLanguage.code)
       .then((response) => {
-        let comparativeText = response.data.translatedText.toLowerCase();
-        if (response.data.detectedSourceLanguage.code !== "en") {
-          setInputText("");
-          setGameStage(-1);
-        } else if (inputText.toLowerCase() === comparativeText) {
+        console.log(response)
+        let comparativeText = response.trans.toLowerCase();
+        if (inputText.toLowerCase() === comparativeText) {
           // if output text is identical to input text, reassign the target language and re-translate
           getTargetLanguage();
         }
         else {
           setLoading(false);
           setGameStage(1);
-          setOutputText(response.data.translatedText);
+          setOutputText(response.trans);
         }
       })
       .catch((err) => {
@@ -152,10 +152,10 @@ export default function App() {
                   disabled={gameStage !== 1}
                   type="radio"
                   name="languageOption"
-                  value={option.name}
+                  value={option.language}
                   onClick={() => selectOption(option)}
                 />
-                <label htmlFor={option.name}>{option.name}</label>
+                <label htmlFor={option.language}>{option.language}</label>
                 <br />
               </div>
             ))}
@@ -210,7 +210,6 @@ export default function App() {
         }}
       />
       {gameStage < 1 && translateButton()}
-      {gameStage === -1 && <span>text wasn't detected to be English- try again</span>}
       {gameStage > 0 && optionPanel()}
       {gameStage === 1 && submitButton()}
       {gameStage === 2 && resultMessage()}
