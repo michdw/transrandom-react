@@ -17,6 +17,7 @@ export default function App() {
   const [score, setScore] = useState(0);
   const [guesses, setGuesses] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [pastInputs, setPastInputs] = useState([]);
 
   const dataFetchedRef = useRef(false);
   const inputRef = useRef(null);
@@ -43,6 +44,13 @@ export default function App() {
 
   //translate sequence
 
+  // useEffect(() => {
+  //   if(pastInputs.length > 0) {
+  //     console.log(pastInputs);
+  //     getLanguageOptions();
+  //   }
+  // }, [])
+
   useEffect(() => {
     if (languageOptions) {
       // console.log(languageOptions);
@@ -56,6 +64,17 @@ export default function App() {
       handleTranslate();
     }
   }, [targetLanguage]);
+
+  function submitText() {
+    for(let i = 0; i < pastInputs.length; i++) {
+      if(inputText === pastInputs[i]) {
+        console.log("already used this");
+        ///
+      }
+    }
+    setPastInputs(prevPastInputs => [...prevPastInputs, inputText]);
+    getLanguageOptions();
+  }
 
   function getLanguageOptions() {
     let indexes = [];
@@ -81,13 +100,12 @@ export default function App() {
     setLoading(true);
     callTranslate(inputText, targetLanguage.code)
       .then((response) => {
-        console.log(response)
+        console.log(response);
         let comparativeText = response.trans.toLowerCase();
         if (inputText.toLowerCase() === comparativeText) {
           // if output text is identical to input text, reassign the target language and re-translate
           getTargetLanguage();
-        }
-        else {
+        } else {
           setLoading(false);
           setGameStage(1);
           setOutputText(response.trans);
@@ -131,7 +149,7 @@ export default function App() {
     return (
       <button
         disabled={inputText.length < 2 || gameStage !== 0}
-        onClick={getLanguageOptions}
+        onClick={submitText}
       >
         Click to translate
       </button>
@@ -180,7 +198,7 @@ export default function App() {
     return answerCorrect ? (
       <div>correct!</div>
     ) : (
-      <div>sorry, the correct answer was {targetLanguage.name}</div>
+      <div>sorry, the correct answer was {targetLanguage.language}</div>
     );
   };
 
@@ -198,7 +216,7 @@ export default function App() {
 
   return (
     <div className="App">
-      {gameStage === 0 && <div>Type an English word or phrase:</div>}
+      {gameStage === 0 && <div>Type anything to translate:</div>}
       <input
         ref={inputRef}
         disabled={gameStage > 0}
