@@ -12,7 +12,7 @@ export default function App() {
   const [targetLanguage, setTargetLanguage] = useState();
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
-  const [gameStage, setGameStage] = useState(0);
+  const [gamePhase, setGamePhase] = useState(0);
   const [answerCorrect, setAnswerCorrect] = useState(Boolean);
   const [score, setScore] = useState(0);
   const [guesses, setGuesses] = useState(0);
@@ -33,9 +33,9 @@ export default function App() {
   const handleGetLanguages = () => {
     callGetLanguages()
       .then((response) => {
-        response = response.slice(1);
-        console.log(response);
-        setAllLanguages(response);
+        let languages = response.data.languages;
+        console.log(languages);
+        setAllLanguages(languages);
       })
       .catch((err) => {
         console.log(err);
@@ -44,12 +44,6 @@ export default function App() {
 
   //translate sequence
 
-  // useEffect(() => {
-  //   if(pastInputs.length > 0) {
-  //     console.log(pastInputs);
-  //     getLanguageOptions();
-  //   }
-  // }, [])
 
   useEffect(() => {
     if (languageOptions) {
@@ -68,8 +62,8 @@ export default function App() {
   function submitText() {
     for(let i = 0; i < pastInputs.length; i++) {
       if(inputText === pastInputs[i]) {
-        console.log("already used this");
-        ///
+        setGamePhase(-1);
+        setInputText('');
       }
     }
     setPastInputs(prevPastInputs => [...prevPastInputs, inputText]);
@@ -107,7 +101,7 @@ export default function App() {
           getTargetLanguage();
         } else {
           setLoading(false);
-          setGameStage(1);
+          setGamePhase(1);
           setOutputText(response.trans);
         }
       })
@@ -127,7 +121,7 @@ export default function App() {
   }
 
   function submitGuess(selectedOption) {
-    setGameStage(2);
+    setGamePhase(2);
     setAnswerCorrect(
       selectedOption.code === targetLanguage.code ? true : false
     );
@@ -135,7 +129,7 @@ export default function App() {
   }
 
   function playAgain() {
-    setGameStage(0);
+    setGamePhase(0);
     setLanguageOptions(null);
     setSelectedOption(null);
     setTargetLanguage(null);
@@ -148,7 +142,7 @@ export default function App() {
   const translateButton = () => {
     return (
       <button
-        disabled={inputText.length < 2 || gameStage !== 0}
+        disabled={inputText.length < 2 || gamePhase !== 0}
         onClick={submitText}
       >
         Click to translate
@@ -167,7 +161,7 @@ export default function App() {
             languageOptions.map((option) => (
               <div key={option.code}>
                 <input
-                  disabled={gameStage !== 1}
+                  disabled={gamePhase !== 1}
                   type="radio"
                   name="languageOption"
                   value={option.language}
@@ -216,22 +210,23 @@ export default function App() {
 
   return (
     <div className="App">
-      {gameStage === 0 && <div>Type anything to translate:</div>}
+      {gamePhase === 0 && <div>Type anything to translate:</div>}
       <input
         ref={inputRef}
-        disabled={gameStage > 0}
+        disabled={gamePhase > 0}
         type="text"
         value={inputText}
         onChange={(e) => {
-          setGameStage(0);
+          setGamePhase(0);
           setInputText(e.target.value);
         }}
       />
-      {gameStage < 1 && translateButton()}
-      {gameStage > 0 && optionPanel()}
-      {gameStage === 1 && submitButton()}
-      {gameStage === 2 && resultMessage()}
-      {gameStage === 2 && playAgainBtn()}
+      {gamePhase < 1 && translateButton()}
+      {gamePhase < 0 && <div>text has already been used - please enter something new</div>}
+      {gamePhase > 0 && optionPanel()}
+      {gamePhase === 1 && submitButton()}
+      {gamePhase === 2 && resultMessage()}
+      {gamePhase === 2 && playAgainBtn()}
       {guesses > 0 && scoreboard()}
       {loading && <div>loading</div>}
     </div>

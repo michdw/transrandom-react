@@ -2,11 +2,11 @@
 const apiHeaders = {
   "content-type": "application/x-www-form-urlencoded",
   "X-RapidAPI-Key": process.env.REACT_APP_RapidAPI_Key,
-  "X-RapidAPI-Host": "aibit-translator.p.rapidapi.com",
+  "X-RapidAPI-Host": "google-translator9.p.rapidapi.com",
 };
 
 const callTranslate = (inputText, targetCode) => {
-  const url = "https://aibit-translator.p.rapidapi.com/api/v1/translator/text";
+  const url = "https://google-translator9.p.rapidapi.com/v2";
   const options = {
     method: "POST",
     headers: apiHeaders,
@@ -24,7 +24,7 @@ const callTranslate = (inputText, targetCode) => {
 };
 
 const callGetLanguages = () => {
-  const url = "https://aibit-translator.p.rapidapi.com/api/v1/translator/support-languages";
+  const url = "https://google-translator9.p.rapidapi.com/v2/languages";
   const options = {
     method: "GET",
     headers: apiHeaders,
