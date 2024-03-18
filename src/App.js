@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "./App.css";
 import React, { useEffect, useState, useRef } from "react";
-import { callTranslate, callGetLanguages } from "./TranslatorUtils";
+import { callTranslate } from "./TranslatorUtils";
 import { supportedLanguages } from "./LanguageList";
 
 export default function App() {
@@ -22,7 +22,7 @@ export default function App() {
   const [pastInputs, setPastInputs] = useState([]);
 
   //ref
-  const dataFetchedRef = useRef(false);
+  // const dataFetchedRef = useRef(false);
   const inputRef = useRef(null);
 
   function getAllLanguages() {
