@@ -2,11 +2,13 @@
 import "./App.css";
 import React, { useEffect, useState, useRef } from "react";
 import { callTranslate, callGetLanguages } from "./TranslatorUtils";
+import { supportedLanguages } from "./LanguageList";
 
 export default function App() {
+  const optionCount = 5;
+  const allLanguages = getAllLanguages();
+
   //state
-  const [allLanguages, setAllLanguages] = useState();
-  const [optionCount] = useState(5);
   const [languageOptions, setLanguageOptions] = useState();
   const [selectedOption, setSelectedOption] = useState();
   const [targetLanguage, setTargetLanguage] = useState();
@@ -19,55 +21,46 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [pastInputs, setPastInputs] = useState([]);
 
+  //ref
   const dataFetchedRef = useRef(false);
   const inputRef = useRef(null);
 
-  //get languages on load
-
-  useEffect(() => {
-    if (dataFetchedRef.current) return;
-    dataFetchedRef.current = true;
-    handleGetLanguages();
-  }, []);
-
-  const handleGetLanguages = () => {
-    callGetLanguages()
-      .then((response) => {
-        let languages = response.data.languages;
-        console.log(languages);
-        setAllLanguages(languages);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  function getAllLanguages() {
+    let arr = [];
+    for (let l in supportedLanguages) {
+      arr.push({ code: supportedLanguages[l], name: l });
+    }
+    return arr;
+  }
 
   //translate sequence
 
-
   useEffect(() => {
     if (languageOptions) {
-      // console.log(languageOptions);
       getTargetLanguage();
     }
   }, [languageOptions]);
 
   useEffect(() => {
     if (targetLanguage) {
-      // console.log(targetLanguage);
+      console.log(targetLanguage);
       handleTranslate();
     }
   }, [targetLanguage]);
 
   function submitText() {
-    for(let i = 0; i < pastInputs.length; i++) {
-      if(inputText === pastInputs[i]) {
+    let isNew = true;
+    for (let i = 0; i < pastInputs.length; i++) {
+      if (inputText === pastInputs[i]) {
+        isNew = false;
         setGamePhase(-1);
-        setInputText('');
+        setInputText("");
       }
     }
-    setPastInputs(prevPastInputs => [...prevPastInputs, inputText]);
-    getLanguageOptions();
+    if (isNew) {
+      setPastInputs((prevPastInputs) => [...prevPastInputs, inputText]);
+      getLanguageOptions();
+    }
   }
 
   function getLanguageOptions() {
@@ -94,15 +87,14 @@ export default function App() {
     setLoading(true);
     callTranslate(inputText, targetLanguage.code)
       .then((response) => {
-        console.log(response);
-        let comparativeText = response.trans.toLowerCase();
+        let comparativeText = response.translations.translation.toLowerCase();
         if (inputText.toLowerCase() === comparativeText) {
           // if output text is identical to input text, reassign the target language and re-translate
           getTargetLanguage();
         } else {
           setLoading(false);
           setGamePhase(1);
-          setOutputText(response.trans);
+          setOutputText(response.translations.translation);
         }
       })
       .catch((err) => {
@@ -164,10 +156,10 @@ export default function App() {
                   disabled={gamePhase !== 1}
                   type="radio"
                   name="languageOption"
-                  value={option.language}
+                  value={option.name}
                   onClick={() => selectOption(option)}
                 />
-                <label htmlFor={option.language}>{option.language}</label>
+                <label htmlFor={option.name}>{option.name}</label>
                 <br />
               </div>
             ))}
@@ -192,7 +184,7 @@ export default function App() {
     return answerCorrect ? (
       <div>correct!</div>
     ) : (
-      <div>sorry, the correct answer was {targetLanguage.language}</div>
+      <div>sorry, the correct answer was {targetLanguage.name}</div>
     );
   };
 
@@ -222,7 +214,9 @@ export default function App() {
         }}
       />
       {gamePhase < 1 && translateButton()}
-      {gamePhase < 0 && <div>text has already been used - please enter something new</div>}
+      {gamePhase < 0 && (
+        <div>text has already been used - please enter something new</div>
+      )}
       {gamePhase > 0 && optionPanel()}
       {gamePhase === 1 && submitButton()}
       {gamePhase === 2 && resultMessage()}

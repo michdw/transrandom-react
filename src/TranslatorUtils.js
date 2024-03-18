@@ -1,21 +1,22 @@
 // Import any necessary modules or constants here
 const apiHeaders = {
-  "content-type": "application/x-www-form-urlencoded",
+  "content-type": "application/json",
   "X-RapidAPI-Key": process.env.REACT_APP_RapidAPI_Key,
-  "X-RapidAPI-Host": "google-translator9.p.rapidapi.com",
+  "X-RapidAPI-Host": "translate-plus.p.rapidapi.com",
 };
 
 const callTranslate = (inputText, targetCode) => {
-  const url = "https://google-translator9.p.rapidapi.com/v2";
+  const url = "https://translate-plus.p.rapidapi.com/translate";
   const options = {
     method: "POST",
     headers: apiHeaders,
-    body: new URLSearchParams({
-      from: "auto",
-      to: targetCode,
-      text: String(inputText),
+    body: JSON.stringify({
+      text: inputText,
+      source: "auto",
+      target: targetCode
     }),
   };
+  
   return fetch(url, options)
     .then((response) => response.json())
     .catch((err) => {
@@ -24,7 +25,7 @@ const callTranslate = (inputText, targetCode) => {
 };
 
 const callGetLanguages = () => {
-  const url = "https://google-translator9.p.rapidapi.com/v2/languages";
+  const url = "https://translate-plus.p.rapidapi.com/";
   const options = {
     method: "GET",
     headers: apiHeaders,
