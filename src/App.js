@@ -224,6 +224,7 @@ export default function App() {
       {gamePhase === 2 && playAgainBtn()}
       {guesses > 0 && scoreboard()}
       {loading && <div>loading</div>}
+      <div style={{fontSize: '10px'}}>This app is under construction- will look better soon!</div>
     </div>
   );
 }
