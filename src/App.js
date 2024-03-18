@@ -147,6 +147,7 @@ export default function App() {
       <div>
         <div>
           <strong>{outputText}</strong>
+          <li>What language is this?</li>
         </div>
         <ul>
           {languageOptions &&
@@ -202,7 +203,7 @@ export default function App() {
 
   return (
     <div className="App">
-      {gamePhase === 0 && <div>Type anything to translate:</div>}
+      {gamePhase === 0 && <div>Type something to translate into a random language:</div>}
       <input
         ref={inputRef}
         disabled={gamePhase > 0}
@@ -215,7 +216,7 @@ export default function App() {
       />
       {gamePhase < 1 && translateButton()}
       {gamePhase < 0 && (
-        <div>text has already been used - please enter something new</div>
+        <div>That's already been translated - try something new!</div>
       )}
       {gamePhase > 0 && optionPanel()}
       {gamePhase === 1 && submitButton()}
