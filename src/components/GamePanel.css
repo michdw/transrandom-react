@@ -1,0 +1,14 @@
+.outputText {
+    font-size: 3em;
+    padding: .2em;
+}
+
+.radioContainer {
+    /* display: flex;
+    justify-content: left;
+    flex-direction: column; */
+}
+
+.optionPanel li {
+    list-style-type: none;
+}

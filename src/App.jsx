@@ -6,9 +6,11 @@ import GamePanel from "./components/GamePanel";
 
 export default function App() {
 
+  const optionCount = 5;
+
   return (
     <section className="App">
-      <GamePanel/>
+      <GamePanel optionCount={optionCount}/>
       <div style={{ fontSize: "10px" }}>
         This app is under construction- will look better soon!
       </div>

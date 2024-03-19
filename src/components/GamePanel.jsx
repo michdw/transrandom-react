@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import "./GamePanel.css"
 import React, { useEffect, useState, useRef } from "react";
 import { callTranslate } from "../TranslatorUtils";
 import { supportedLanguages } from "../LanguageList";
 
-export default function GamePanel() {
+export default function GamePanel(props) {
 
-  const optionCount = 5;
   const allLanguages = getAllLanguages();
 
   //state
@@ -65,12 +65,12 @@ export default function GamePanel() {
 
   function getLanguageOptions() {
     let indexes = [];
-    while (indexes.length < optionCount) {
+    while (indexes.length < props.optionCount) {
       let n = Math.floor(Math.random() * allLanguages.length);
       indexes.indexOf(n) === -1 && indexes.push(n);
     }
     let objects = [];
-    for (let i = 0; i < optionCount; i++) {
+    for (let i = 0; i < props.optionCount; i++) {
       let j = indexes[i];
       objects.push(allLanguages[j]);
     }
@@ -144,15 +144,15 @@ export default function GamePanel() {
 
   const optionPanel = () => {
     return (
-      <div>
-        <div>
-          <strong>{outputText}</strong>
+      <section className="optionPanel">
+        <div className="output">
+          <li className="outputText">{outputText}</li>
           <li>What language is this?</li>
         </div>
-        <ul>
+        <ul className="radioContainer">
           {languageOptions &&
             languageOptions.map((option) => (
-              <div key={option.code}>
+              <li key={option.code}>
                 <input
                   disabled={gamePhase !== 1}
                   type="radio"
@@ -161,11 +161,10 @@ export default function GamePanel() {
                   onClick={() => selectOption(option)}
                 />
                 <label htmlFor={option.name}>{option.name}</label>
-                <br />
-              </div>
+              </li>
             ))}
         </ul>
-      </div>
+      </section>
     );
   };
 
