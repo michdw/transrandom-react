@@ -224,7 +224,7 @@ export default function GamePanel(props) {
       {gamePhase === 2 && resultMessage()}
       {gamePhase === 2 && playAgainBtn()}
       {guesses > 0 && scoreboard()}
-      {loading && <div>loading</div>}
+      {loading && <div className='spinner'>文</div>}
     </section>
   );
 }
