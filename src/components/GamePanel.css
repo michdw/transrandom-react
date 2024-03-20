@@ -1,16 +1,28 @@
+.output {
+    padding: 1em;
+}
+
 .outputText {
     font-size: 3em;
-    padding: .2em;
+}
+
+.optionPanel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .radioContainer {
-    /* display: flex;
-    justify-content: left;
-    flex-direction: column; */
+    padding: 0;
+}
+
+.optionPanel p {
+    margin: 0;
 }
 
 .optionPanel li {
     list-style-type: none;
+    text-align: left;
 }
 
 .spinner {

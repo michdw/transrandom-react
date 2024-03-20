@@ -1,11 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import "./GamePanel.css"
+import "./GamePanel.css";
 import React, { useEffect, useState, useRef } from "react";
 import { callTranslate } from "../TranslatorUtils";
 import { supportedLanguages } from "../LanguageList";
 
 export default function GamePanel(props) {
-
   const allLanguages = getAllLanguages();
 
   //state
@@ -146,8 +145,11 @@ export default function GamePanel(props) {
     return (
       <section className="optionPanel">
         <div className="output">
-          <li className="outputText">{outputText}</li>
-          <li>What language is this?</li>
+          <p>
+            <strong>{inputText}</strong> is...
+          </p>
+          <p className="outputText">{outputText}</p>
+          <p>...in what language?</p>
         </div>
         <ul className="radioContainer">
           {languageOptions &&
@@ -224,7 +226,7 @@ export default function GamePanel(props) {
       {gamePhase === 2 && resultMessage()}
       {gamePhase === 2 && playAgainBtn()}
       {guesses > 0 && scoreboard()}
-      {loading && <div className='spinner'>文</div>}
+      {loading && <div className="spinner">文</div>}
     </section>
   );
 }
