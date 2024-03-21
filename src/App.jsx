@@ -14,6 +14,8 @@ export default function App() {
       <div style={{ fontSize: "10px" }}>
         This app is under construction- will look better soon!
       </div>
+      <p class="bubble speech">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem quos</p>
     </section>
+    
   );
 }
