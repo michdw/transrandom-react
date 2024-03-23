@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
 }
 
 .App-logo {
@@ -32,6 +35,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -43,67 +47,38 @@
   padding: 1em;
 }
 
-p.bubble {
-  position: relative;
-  width: 300px;
-  text-align: center;
-  line-height: 1.4em;
-  margin: 40px auto;
-  background-color: #fff;
-  border: 8px solid #333;
-  border-radius: 30px;
-  font-family: sans-serif;
-  padding: 20px;
-  font-size: large;
+/*  */
+
+html {
+  font-family: 'PT Sans', Georgia, serif;
 }
 
-p.thought {
-  width: 300px;
-  border-radius: 200px;
-  padding: 30px;
+.discussion {
+  display: flex;
+  flex-flow: column;
+  width: 400px;
 }
 
-p.bubble:before,
-p.bubble:after {
-  content: ' ';
-  position: absolute;
-  width: 0;
-  height: 0;
+.sender {
+  align-self: flex-start;
+  border-radius: 1em;
+  border-bottom-left-radius: 0;
 }
 
-p.speech:before {
-  left: 30px;
-  bottom: -50px;
-  border: 25px solid;
-  border-color: #333 transparent transparent #333;
+.recipient {
+  align-self: flex-end;
+  border-radius: 1em;
+  border-bottom-right-radius: 0;
 }
 
-p.speech:after {
-  left: 38px;
-  bottom: -30px;
-  border: 15px solid;
-  border-color: #fff transparent transparent #fff;
+.bubble-container {
+  background-color: cornflowerblue;
+  padding: .2em;
 }
 
-p.thought:before,
-p.thought:after {
-  left: 10px;
-  bottom: -30px;
-  width: 40px;
-  height: 40px;
-  background-color: #fff;
-  border: 8px solid #333;
-  -webkit-border-radius: 28px;
-  -moz-border-radius: 28px;
-  border-radius: 28px;
-}
-
-p.thought:after {
-  width: 20px;
-  height: 20px;
-  left: 5px;
-  bottom: -40px;
-  -webkit-border-radius: 18px;
-  -moz-border-radius: 18px;
-  border-radius: 18px;
+.bubble {
+  border-radius: 1em;
+  padding: .2em;
+  margin: .05em;
+  background-color: lightgray;
 }

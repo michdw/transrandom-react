@@ -5,17 +5,24 @@ import React from "react";
 import GamePanel from "./components/GamePanel";
 
 export default function App() {
-
   const optionCount = 5;
 
   return (
     <section className="App">
-      <GamePanel optionCount={optionCount}/>
+      <GamePanel optionCount={optionCount} />
       <div style={{ fontSize: "10px" }}>
         This app is under construction- will look better soon!
       </div>
-      <p class="bubble speech">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem quos</p>
+
+      <section className="discussion">
+        <div className="bubble-container sender">
+          <div className="bubble">This is a speech bubble</div>
+        </div>
+        <div className="bubble-container recipient">
+          <div className="bubble">This is also a speech bubble</div>
+        </div>
+      </section>
+
     </section>
-    
   );
 }
