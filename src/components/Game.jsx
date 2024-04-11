@@ -4,8 +4,16 @@ import React, { useEffect, useState, useRef } from "react";
 import { callTranslate } from "../TranslatorUtils";
 import { supportedLanguages } from "../LanguageList";
 
-export default function GamePanel(props) {
-  const allLanguages = getAllLanguages();
+export default function Game(props) {
+  //L type something prompt
+  //C (input + send)
+  //R inputText + translation
+  //L what language + choices
+  //R your guess
+  //L results
+  //C (play again)
+
+    const allLanguages = getAllLanguages();
 
   //state
   const [languageOptions, setLanguageOptions] = useState();
@@ -54,8 +62,6 @@ export default function GamePanel(props) {
         isNew = false;
         setGamePhase(-1);
         setInputText("");
-      } else {
-        setGamePhase(1);
       }
     }
     if (isNew) {
@@ -94,7 +100,7 @@ export default function GamePanel(props) {
           getTargetLanguage();
         } else {
           setLoading(false);
-          setGamePhase(2);
+          setGamePhase(1);
           setOutputText(response.translations.translation);
         }
       })
@@ -114,7 +120,7 @@ export default function GamePanel(props) {
   }
 
   function submitGuess(selectedOption) {
-    setGamePhase(3);
+    setGamePhase(2);
     setAnswerCorrect(
       selectedOption.code === targetLanguage.code ? true : false
     );
@@ -130,31 +136,13 @@ export default function GamePanel(props) {
     setOutputText("");
   }
 
-  // elements
-
-  const userInput = () => {
-    return (
-        <input
-          className={gamePhase > 0 ? "bubble recipient" : "bubble prompt"}
-          ref={inputRef}
-          disabled={gamePhase > 0}
-          type="text"
-          placeholder="..."
-          value={inputText}
-          onChange={(e) => {
-            setGamePhase(0);
-            setInputText(e.target.value);
-          }}
-        />
-    )
-  }
+    // elements
 
   const translateButton = () => {
     return (
       <button
         className="action-btn"
-        hidden={inputText.length < 2}
-        disabled={gamePhase !== 0}
+        disabled={inputText.length < 2 || gamePhase !== 0}
         onClick={submitText}
       >
         Click to translate
@@ -165,14 +153,19 @@ export default function GamePanel(props) {
   const optionPanel = () => {
     return (
       <section className="optionPanel">
-        <div className="bubble recipient">{outputText}</div>
-        <ul className="radioContainer bubble sender">
-          <p>What language is this?</p>
+        <div className="output">
+          <p>
+            <strong>{inputText}</strong> is...
+          </p>
+          <p className="outputText">{outputText}</p>
+          <p>...in what language?</p>
+        </div>
+        <ul className="radioContainer">
           {languageOptions &&
             languageOptions.map((option) => (
               <li key={option.code}>
                 <input
-                  disabled={gamePhase !== 2}
+                  disabled={gamePhase !== 1}
                   type="radio"
                   name="languageOption"
                   value={option.name}
@@ -189,8 +182,7 @@ export default function GamePanel(props) {
   const submitButton = () => {
     return (
       <button
-        className="action-btn"
-        hidden={!selectedOption}
+        disabled={!selectedOption}
         type="submit"
         onClick={() => submitGuess(selectedOption)}
       >
@@ -200,22 +192,15 @@ export default function GamePanel(props) {
   };
 
   const resultMessage = () => {
-    return (
-      <div className="bubble sender">
-        {answerCorrect && <span>correct!</span>}
-        {!answerCorrect && (
-          <span>sorry, the correct answer was {targetLanguage.name}</span>
-        )}
-      </div>
+    return answerCorrect ? (
+      <div>correct!</div>
+    ) : (
+      <div>sorry, the correct answer was {targetLanguage.name}</div>
     );
   };
 
   const playAgainBtn = () => {
-    return (
-      <button className="action-btn" onClick={playAgain}>
-        Play again
-      </button>
-    );
+    return <button onClick={playAgain}>Play again</button>;
   };
 
   const scoreboard = () => {
@@ -227,26 +212,10 @@ export default function GamePanel(props) {
   };
 
   return (
-    <section className="GamePanel">
-      <div className="bubble sender">
-        Type something to translate into a random language:
-      </div>
-      {gamePhase < 1 && userInput()}
-      {gamePhase < 1 && translateButton()}
-      {gamePhase < 0 && (
-        <div className="bubble sender">
-          That's already been translated - try something new!
-        </div>
-      )}
-      {gamePhase > 0 && optionPanel()}
-      {gamePhase === 2 && submitButton()}
-      {gamePhase === 3 && (
-        <div className="bubble recipient">{selectedOption.name}</div>
-      )}
-      {gamePhase === 3 && resultMessage()}
-      {gamePhase === 3 && playAgainBtn()}
-      {guesses > 0 && scoreboard()}
-      {loading && <div className="spinner">文</div>}
+    <section className="game">
+      
+
+
     </section>
-  );
+  )
 }

@@ -45,6 +45,9 @@
 
 .GamePanel {
   padding: 1em;
+  display: flex;
+  flex-flow: column;
+  width: 400px;
 }
 
 /*  */
@@ -53,32 +56,89 @@ html {
   font-family: 'PT Sans', Georgia, serif;
 }
 
-.discussion {
+/* game panel */
+
+.output {
+  padding: 1em;
+}
+
+.output-text {
+  font-size: 3em;
+}
+
+.optionPanel {
   display: flex;
-  flex-flow: column;
-  width: 400px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.radioContainer {
+  padding: 0;
+}
+
+.optionPanel p {
+  margin: 0;
+}
+
+.optionPanel li {
+  list-style-type: none;
+  text-align: left;
+}
+
+.spinner {
+  font-size: 6em;
+  opacity: .3;
+  animation: flip 1s linear infinite;
+}
+
+.bubble {
+  width: 70%;
+  color: #fff;
+  margin: 1em;
+  padding: .2em;
+  border: 0;
 }
 
 .sender {
+  background-color: #333;
   align-self: flex-start;
   border-radius: 1em;
   border-bottom-left-radius: 0;
 }
 
 .recipient {
+  background-color: darkblue;
   align-self: flex-end;
   border-radius: 1em;
   border-bottom-right-radius: 0;
 }
 
-.bubble-container {
-  background-color: cornflowerblue;
-  padding: .2em;
+.prompt {
+  background-color: #57595e;
+  padding: .5em;
+  padding-left: 1em;
+  border-radius: 1em;
+  margin-top: 0;
+  font-size: 1em;
+  align-self: center;
+  width: 70%;
 }
 
-.bubble {
-  border-radius: 1em;
-  padding: .2em;
-  margin: .05em;
-  background-color: lightgray;
+.action-btn {
+  align-self: flex-end;
+}
+
+
+@keyframes flip {
+  25% {
+    transform: rotateX(180deg);
+  }
+
+  50% {
+    transform: rotateX(0deg);
+  }
+
+  75% {
+    transform: rotateY(180deg);
+  }
 }

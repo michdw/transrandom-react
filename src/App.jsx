@@ -9,20 +9,10 @@ export default function App() {
 
   return (
     <section className="App">
-      <GamePanel optionCount={optionCount} />
+      <GamePanel className="discussion" optionCount={optionCount} />
       <div style={{ fontSize: "10px" }}>
         This app is under construction- will look better soon!
       </div>
-
-      <section className="discussion">
-        <div className="bubble-container sender">
-          <div className="bubble">This is a speech bubble</div>
-        </div>
-        <div className="bubble-container recipient">
-          <div className="bubble">This is also a speech bubble</div>
-        </div>
-      </section>
-
     </section>
   );
 }
