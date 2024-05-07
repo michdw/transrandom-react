@@ -62,10 +62,6 @@ html {
   padding: 1em;
 }
 
-.output-text {
-  font-size: 3em;
-}
-
 .optionPanel {
   display: flex;
   flex-direction: column;
@@ -94,8 +90,8 @@ html {
 .bubble {
   width: 70%;
   color: #fff;
-  margin: 1em;
-  padding: .2em;
+  margin: .5em;
+  padding: .5em;
   border: 0;
 }
 
@@ -113,8 +109,15 @@ html {
   border-bottom-right-radius: 0;
 }
 
+.output-text {
+  font-size: 1.5em;
+  border-radius: .67em;
+  border-bottom-right-radius: 0;
+}
+
 .prompt {
   background-color: #57595e;
+  color: #fff;
   padding: .5em;
   padding-left: 1em;
   border-radius: 1em;
@@ -125,7 +128,6 @@ html {
 }
 
 .action-btn {
-  align-self: flex-end;
 }
 
 

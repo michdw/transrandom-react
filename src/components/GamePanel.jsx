@@ -3,6 +3,7 @@ import "../App.css";
 import React, { useEffect, useState, useRef } from "react";
 import { callTranslate } from "../TranslatorUtils";
 import { supportedLanguages } from "../LanguageList";
+import sendicon from "../assets/sendicon.png"
 
 export default function GamePanel(props) {
   const allLanguages = getAllLanguages();
@@ -165,7 +166,7 @@ export default function GamePanel(props) {
   const optionPanel = () => {
     return (
       <section className="optionPanel">
-        <div className="bubble recipient">{outputText}</div>
+        <div className="bubble recipient output-text">{outputText}</div>
         <ul className="radioContainer bubble sender">
           <p>What language is this?</p>
           {languageOptions &&
@@ -189,7 +190,7 @@ export default function GamePanel(props) {
   const submitButton = () => {
     return (
       <button
-        className="action-btn"
+        className="action-btn prompt"
         hidden={!selectedOption}
         type="submit"
         onClick={() => submitGuess(selectedOption)}
@@ -231,13 +232,13 @@ export default function GamePanel(props) {
       <div className="bubble sender">
         Type something to translate into a random language:
       </div>
-      {gamePhase < 1 && userInput()}
-      {gamePhase < 1 && translateButton()}
       {gamePhase < 0 && (
         <div className="bubble sender">
           That's already been translated - try something new!
         </div>
       )}
+      {gamePhase < 1 && userInput()}
+      {gamePhase < 1 && translateButton()}
       {gamePhase > 0 && optionPanel()}
       {gamePhase === 2 && submitButton()}
       {gamePhase === 3 && (
@@ -247,6 +248,7 @@ export default function GamePanel(props) {
       {gamePhase === 3 && playAgainBtn()}
       {guesses > 0 && scoreboard()}
       {loading && <div className="spinner">文</div>}
+      <img src={sendicon} alt="SendIcon" />;
     </section>
   );
 }
