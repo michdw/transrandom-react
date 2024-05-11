@@ -115,21 +115,65 @@ html {
   border-bottom-right-radius: 0;
 }
 
+.prompt-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 15%;
+}
+
+.prompt-row > .prompt, .prompt-row > .sendicon {
+  /* padding: .5em; */
+  margin: .5em;
+  align-self: center;
+}
+
 .prompt {
   background-color: #57595e;
   color: #fff;
-  padding: .5em;
-  padding-left: 1em;
   border-radius: 1em;
-  margin-top: 0;
   font-size: 1em;
-  align-self: center;
   width: 70%;
 }
 
-.action-btn {
+input.prompt {
+  padding-left: 1em;
+  width: 70%;
+  align-self: center;
 }
 
+button.prompt {
+  text-align: center;
+  width: 75%
+}
+
+.prompt-row:hover > button.prompt {
+  background-color: darkblue;
+}
+.prompt-row:hover > .sendicon {
+  filter: invert(100%);
+}
+
+.sendicon {
+  background-color: #000;
+  width: 1.5em;
+  height: 1.5em;
+  padding: .5em;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.sendicon img {
+  width: 1em;
+  align-self: center;
+}
+
+.sendicon-underlay {
+  background-color: #000;
+  padding: .5em;
+  border-radius: 100%;
+}
 
 @keyframes flip {
   25% {

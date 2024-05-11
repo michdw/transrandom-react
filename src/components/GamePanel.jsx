@@ -3,7 +3,7 @@ import "../App.css";
 import React, { useEffect, useState, useRef } from "react";
 import { callTranslate } from "../TranslatorUtils";
 import { supportedLanguages } from "../LanguageList";
-import sendicon from "../assets/sendicon.png"
+import sendicon from "../assets/sendicon.png";
 
 export default function GamePanel(props) {
   const allLanguages = getAllLanguages();
@@ -133,40 +133,51 @@ export default function GamePanel(props) {
 
   // elements
 
+  const sendIcon = () => {
+    return (
+      <span className="sendicon">
+        <img src={sendicon} alt="SendIcon" />
+      </span>
+    );
+  };
+
   const userInput = () => {
     return (
-        <input
-          className={gamePhase > 0 ? "bubble recipient" : "bubble prompt"}
-          ref={inputRef}
-          disabled={gamePhase > 0}
-          type="text"
-          placeholder="..."
-          value={inputText}
-          onChange={(e) => {
-            setGamePhase(0);
-            setInputText(e.target.value);
-          }}
-        />
-    )
-  }
+      <input
+        className={gamePhase > 0 ? "bubble recipient" : "bubble prompt"}
+        ref={inputRef}
+        disabled={gamePhase > 0}
+        type="text"
+        placeholder="..."
+        value={inputText}
+        onChange={(e) => {
+          setGamePhase(0);
+          setInputText(e.target.value);
+        }}
+      />
+    );
+  };
 
   const translateButton = () => {
     return (
-      <button
-        className="action-btn"
-        hidden={inputText.length < 2}
-        disabled={gamePhase !== 0}
+      <div
+        className="prompt-row"
         onClick={submitText}
       >
-        Click to translate
-      </button>
+        <button className="bubble prompt" disabled={gamePhase !== 0}>
+          Click to translate
+        </button>
+        {sendIcon()}
+      </div>
     );
   };
 
   const optionPanel = () => {
     return (
       <section className="optionPanel">
-        <div className="bubble recipient output-text">{outputText}</div>
+        {!loading && (
+          <div className="bubble recipient output-text">{outputText}</div>
+        )}
         <ul className="radioContainer bubble sender">
           <p>What language is this?</p>
           {languageOptions &&
@@ -189,14 +200,16 @@ export default function GamePanel(props) {
 
   const submitButton = () => {
     return (
-      <button
-        className="action-btn prompt"
+      <div
+        className="prompt-row"
         hidden={!selectedOption}
-        type="submit"
         onClick={() => submitGuess(selectedOption)}
       >
-        Submit guess
-      </button>
+        <button className="bubble prompt" type="submit">
+          Submit guess
+        </button>
+        {sendIcon()}
+      </div>
     );
   };
 
@@ -213,9 +226,10 @@ export default function GamePanel(props) {
 
   const playAgainBtn = () => {
     return (
-      <button className="action-btn" onClick={playAgain}>
-        Play again
-      </button>
+      <div className="prompt-row" onClick={playAgain}>
+        <button className="bubble prompt">Play again</button>
+        {sendIcon()}
+      </div>
     );
   };
 
@@ -238,9 +252,9 @@ export default function GamePanel(props) {
         </div>
       )}
       {gamePhase < 1 && userInput()}
-      {gamePhase < 1 && translateButton()}
+      {gamePhase < 1 && inputText.length > 1 && translateButton()}
       {gamePhase > 0 && optionPanel()}
-      {gamePhase === 2 && submitButton()}
+      {gamePhase === 2 && selectedOption && submitButton()}
       {gamePhase === 3 && (
         <div className="bubble recipient">{selectedOption.name}</div>
       )}
@@ -248,7 +262,6 @@ export default function GamePanel(props) {
       {gamePhase === 3 && playAgainBtn()}
       {guesses > 0 && scoreboard()}
       {loading && <div className="spinner">文</div>}
-      <img src={sendicon} alt="SendIcon" />;
     </section>
   );
 }
