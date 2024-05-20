@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "../App.css";
-import React, { useEffect, useState, useRef, useImperativeHandle } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { callTranslate } from "../TranslatorUtils";
 import { supportedLanguages } from "../LanguageList";
 import sendicon from "../assets/sendicon.png";
@@ -41,7 +41,6 @@ export default function GamePanel(props) {
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
-  // sleep(2000).then(() => { console.log('World!'); });
 
   //translate sequence
 
