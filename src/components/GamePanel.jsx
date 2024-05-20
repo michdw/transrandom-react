@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "../App.css";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useImperativeHandle } from "react";
 import { callTranslate } from "../TranslatorUtils";
 import { supportedLanguages } from "../LanguageList";
 import sendicon from "../assets/sendicon.png";
@@ -8,17 +8,20 @@ import sendicon from "../assets/sendicon.png";
 export default function GamePanel(props) {
   const allLanguages = getAllLanguages();
 
-  //state
+  //state for each session
   const [languageOptions, setLanguageOptions] = useState();
   const [selectedOption, setSelectedOption] = useState();
   const [targetLanguage, setTargetLanguage] = useState();
+  const [loading, setLoading] = useState(false);
+  const [repeatAttempt, setRepeatAttempt] = useState(false);
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
   const [gamePhase, setGamePhase] = useState(0);
   const [answerCorrect, setAnswerCorrect] = useState(Boolean);
+
+  //state for whole game
   const [score, setScore] = useState(0);
   const [guesses, setGuesses] = useState(0);
-  const [loading, setLoading] = useState(false);
   const [pastInputs, setPastInputs] = useState([]);
 
   //ref
@@ -28,10 +31,17 @@ export default function GamePanel(props) {
   function getAllLanguages() {
     let arr = [];
     for (let l in supportedLanguages) {
-      arr.push({ code: supportedLanguages[l], name: l });
+      l !== "Auto Detect" &&
+        l !== "English" &&
+        arr.push({ code: supportedLanguages[l], name: l });
     }
     return arr;
   }
+
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+  // sleep(2000).then(() => { console.log('World!'); });
 
   //translate sequence
 
@@ -53,7 +63,7 @@ export default function GamePanel(props) {
     for (let i = 0; i < pastInputs.length; i++) {
       if (inputText === pastInputs[i]) {
         isNew = false;
-        setGamePhase(-1);
+        setRepeatAttempt(true);
         setInputText("");
       } else {
         setGamePhase(1);
@@ -120,6 +130,9 @@ export default function GamePanel(props) {
       selectedOption.code === targetLanguage.code ? true : false
     );
     setGuesses((prevGuesses) => prevGuesses + 1);
+    sleep(200).then(() => {
+      setGamePhase(4);
+    });
   }
 
   function playAgain() {
@@ -127,6 +140,8 @@ export default function GamePanel(props) {
     setLanguageOptions(null);
     setSelectedOption(null);
     setTargetLanguage(null);
+    setTargetLanguage(null);
+    setRepeatAttempt(false);
     setInputText("");
     setOutputText("");
   }
@@ -160,10 +175,7 @@ export default function GamePanel(props) {
 
   const translateButton = () => {
     return (
-      <div
-        className="prompt-row"
-        onClick={submitText}
-      >
+      <div className="prompt-row" onClick={submitText}>
         <button className="bubble prompt" disabled={gamePhase !== 0}>
           Click to translate
         </button>
@@ -182,15 +194,27 @@ export default function GamePanel(props) {
           <p>What language is this?</p>
           {languageOptions &&
             languageOptions.map((option) => (
-              <li key={option.code}>
+              <li
+                key={option.code}
+                onClick={() => {
+                  if (gamePhase === 2) {
+                    document.getElementById(option.code).checked = true;
+                    selectOption(option);
+                  }
+                  console.log(selectedOption);
+                  console.log(gamePhase);
+                }}
+                style={{ cursor: gamePhase === 2 ? "pointer" : "not-allowed" }}
+              >
                 <input
+                  id={option.code}
                   disabled={gamePhase !== 2}
                   type="radio"
                   name="languageOption"
                   value={option.name}
-                  onClick={() => selectOption(option)}
+                  // onClick={(e) => e.stopPropagation()} // Prevents the li click event from triggering again
                 />
-                <label htmlFor={option.name}>{option.name}</label>
+                <label htmlFor={option.code}>{option.name}</label>
               </li>
             ))}
         </ul>
@@ -243,23 +267,23 @@ export default function GamePanel(props) {
 
   return (
     <section className="GamePanel">
-      <div className="bubble sender">
+      <div className="bubble sender init">
         Type something to translate into a random language:
       </div>
-      {gamePhase < 0 && (
+      {repeatAttempt && (
         <div className="bubble sender">
           That's already been translated - try something new!
         </div>
       )}
-      {gamePhase < 1 && userInput()}
-      {gamePhase < 1 && inputText.length > 1 && translateButton()}
-      {gamePhase > 0 && optionPanel()}
+      {gamePhase === 0 && userInput()}
+      {gamePhase === 0 && inputText.length > 1 && translateButton()}
+      {gamePhase > 1 && optionPanel()}
       {gamePhase === 2 && selectedOption && submitButton()}
-      {gamePhase === 3 && (
+      {gamePhase > 2 && (
         <div className="bubble recipient">{selectedOption.name}</div>
       )}
-      {gamePhase === 3 && resultMessage()}
-      {gamePhase === 3 && playAgainBtn()}
+      {gamePhase === 4 && resultMessage()}
+      {gamePhase === 4 && playAgainBtn()}
       {guesses > 0 && scoreboard()}
       {loading && <div className="spinner">文</div>}
     </section>
