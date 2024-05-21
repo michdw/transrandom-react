@@ -119,6 +119,7 @@ html {
 .prompt {
   background-color: #57595e;
   color: #fff;
+  caret-color: #aaa;
   border-radius: 1em;
   font-size: 1em;
   width: 70%;

@@ -14,7 +14,8 @@ export default function GamePanel(props) {
   const [targetLanguage, setTargetLanguage] = useState();
   const [loading, setLoading] = useState(false);
   const [repeatAttempt, setRepeatAttempt] = useState(false);
-  const [inputText, setInputText] = useState("");
+  const [fixedLetter, setFixedLetter] = useState(randomLetter());
+  const [inputText, setInputText] = useState(fixedLetter);
   const [outputText, setOutputText] = useState("");
   const [gamePhase, setGamePhase] = useState(0);
   const [answerCorrect, setAnswerCorrect] = useState(Boolean);
@@ -24,9 +25,18 @@ export default function GamePanel(props) {
   const [guesses, setGuesses] = useState(0);
   const [pastInputs, setPastInputs] = useState([]);
 
-  //ref
-  // const dataFetchedRef = useRef(false);
+  //
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    setInputText(fixedLetter);
+  }, [fixedLetter]);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
 
   function getAllLanguages() {
     let arr = [];
@@ -40,6 +50,32 @@ export default function GamePanel(props) {
 
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  // user input functions
+
+  function randomLetter() {
+    const alphabet = "abcdefghijklmnopqrstuvwxyz";
+    return alphabet[Math.floor(Math.random() * alphabet.length)];
+  }
+
+  function handleFixedLetterInput(e) {
+    const newValue = e.target.value;
+    if (newValue.startsWith(fixedLetter)) {
+      setInputText(newValue);
+    } else {
+      setInputText(fixedLetter + newValue.slice(1));
+    }
+  }
+
+  function limitSelection(e) {
+    let startPos = e.target.selectionStart;
+    let endPos = e.target.selectionEnd;
+    if (startPos === 0) {
+      startPos === endPos
+        ? e.target.setSelectionRange(1, 1)
+        : e.target.setSelectionRange(1, endPos);
+    }
   }
 
   //translate sequence
@@ -135,14 +171,15 @@ export default function GamePanel(props) {
   }
 
   function playAgain() {
-    setGamePhase(0);
     setLanguageOptions(null);
     setSelectedOption(null);
     setTargetLanguage(null);
-    setTargetLanguage(null);
+    setLoading(false);
     setRepeatAttempt(false);
-    setInputText("");
+    setFixedLetter(randomLetter());
     setOutputText("");
+    setGamePhase(0);
+    setAnswerCorrect(null);
   }
 
   // elements
@@ -158,15 +195,20 @@ export default function GamePanel(props) {
   const userInput = () => {
     return (
       <input
-        className={gamePhase > 0 ? "bubble recipient" : "bubble prompt"}
         ref={inputRef}
+        className={gamePhase > 0 ? "bubble recipient" : "bubble prompt"}
         disabled={gamePhase > 0}
         type="text"
-        placeholder="..."
         value={inputText}
+        onClick={(e) => {
+          limitSelection(e);
+        }}
+        onKeyUp={(e) => {
+          limitSelection(e);
+        }}
         onChange={(e) => {
-          setGamePhase(0);
           setInputText(e.target.value);
+          handleFixedLetterInput(e);
         }}
       />
     );
@@ -267,7 +309,7 @@ export default function GamePanel(props) {
   return (
     <section className="GamePanel">
       <div className="bubble sender init">
-        Type something to translate into a random language:
+        Type something in English, beginning with this letter:
       </div>
       {repeatAttempt && (
         <div className="bubble sender">
