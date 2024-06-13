@@ -87,7 +87,7 @@ html {
   background-color: #333;
   align-self: flex-start;
   border-radius: 1em;
-  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
 }
 
 .recipient {
@@ -110,7 +110,8 @@ html {
   margin: 0 15%;
 }
 
-.prompt-row > .prompt, .prompt-row > .sendicon {
+.prompt-row>.prompt,
+.prompt-row>.sendicon {
   /* padding: .5em; */
   margin: .5em;
   align-self: center;
@@ -136,10 +137,11 @@ button.prompt {
   width: 75%
 }
 
-.prompt-row:hover > button.prompt {
+.prompt-row:hover>button.prompt {
   background-color: darkblue;
 }
-.prompt-row:hover > .sendicon {
+
+.prompt-row:hover>.sendicon {
   filter: invert(100%);
 }
 
@@ -166,7 +168,8 @@ button.prompt {
 
 /* animations */
 
-.bubble, .sendicon {
+.bubble,
+.sendicon {
   animation: fadeIn .5s;
 }
 
@@ -196,8 +199,52 @@ button.prompt {
 
 @keyframes fadeIn {
   from {
-    transform: rotate3d(1,0,0,90deg);
-  } to {
+    transform: rotate3d(1, 0, 0, 90deg);
+  }
+
+  to {
     transform: 0;
   }
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+.language-option{
+  font-family: system-ui, sans-serif;
+  font-size: 1.1em;
+  font-weight: bold;
+  line-height: 1.1;
+  display: grid;
+  grid-template-columns: 1em auto;
+  gap: 0.5em;
+}
+
+input[type="radio"] {
+  appearance: none;
+  background-color: red;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 1em;
+  height: 1em;
+  border: 0.1em solid currentColor;
+  border-radius: 50%;
+}
+
+input[type="radio"]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--form-control-color);
+}
+
+.form-control+.form-control {
+  margin-top: 1em;
 }

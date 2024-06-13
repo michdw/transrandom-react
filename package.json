@@ -36,6 +36,7 @@
     ]
   },
   "devDependencies": {
-    "json-loader": "^0.5.7"
+    "json-loader": "^0.5.7",
+    "sass": "^1.77.5"
   }
 }

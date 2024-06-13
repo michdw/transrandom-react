@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import "./App.css";
+import "./App.scss";
 import React from "react";
 
 import GamePanel from "./components/GamePanel";

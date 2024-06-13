@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import "../App.css";
+import "../App.scss";
 import React, { useEffect, useState, useRef } from "react";
 import { callTranslate } from "../TranslatorUtils";
 import { supportedLanguages } from "../LanguageList";
@@ -8,7 +8,7 @@ import sendicon from "../assets/sendicon.png";
 export default function GamePanel(props) {
   const allLanguages = getAllLanguages();
 
-  //state for each session
+  //state for each round
   const [languageOptions, setLanguageOptions] = useState();
   const [selectedOption, setSelectedOption] = useState();
   const [targetLanguage, setTargetLanguage] = useState();
@@ -36,7 +36,7 @@ export default function GamePanel(props) {
     if (inputRef.current) {
       inputRef.current.focus();
     }
-  }, []);
+  }, [languageOptions]);
 
   function getAllLanguages() {
     let arr = [];
@@ -52,12 +52,12 @@ export default function GamePanel(props) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  // user input functions
-
   function randomLetter() {
     const alphabet = "abcdefghijklmnopqrstuvwxyz";
     return alphabet[Math.floor(Math.random() * alphabet.length)];
   }
+
+  // user input functions
 
   function handleFixedLetterInput(e) {
     const newValue = e.target.value;
@@ -247,15 +247,16 @@ export default function GamePanel(props) {
                 }}
                 style={{ cursor: gamePhase === 2 ? "pointer" : "not-allowed" }}
               >
-                <input
-                  id={option.code}
-                  disabled={gamePhase !== 2}
-                  type="radio"
-                  name="languageOption"
-                  value={option.name}
-                  // onClick={(e) => e.stopPropagation()} // Prevents the li click event from triggering again
-                />
-                <label htmlFor={option.code}>{option.name}</label>
+                <label htmlFor={option.code} className="language-option">
+                  <input
+                    id={option.code}
+                    disabled={gamePhase !== 2}
+                    type="radio"
+                    name="languageOption"
+                    value={option.name}
+                  />
+                  {option.name}
+                </label>
               </li>
             ))}
         </ul>
@@ -309,7 +310,7 @@ export default function GamePanel(props) {
   return (
     <section className="GamePanel">
       <div className="bubble sender init">
-        Type something in English, beginning with this letter:
+        Type something in English, beginning with the letter {fixedLetter}:
       </div>
       {repeatAttempt && (
         <div className="bubble sender">
