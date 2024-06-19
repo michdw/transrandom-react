@@ -235,7 +235,7 @@ export default function GamePanel(props) {
           <p>What language is this?</p>
           {languageOptions &&
             languageOptions.map((option) => (
-              <li
+              <li className="language-option"
                 key={option.code}
                 onClick={() => {
                   if (gamePhase === 2) {
@@ -247,14 +247,14 @@ export default function GamePanel(props) {
                 }}
                 style={{ cursor: gamePhase === 2 ? "pointer" : "not-allowed" }}
               >
-                <label htmlFor={option.code} className="language-option">
-                  <input
-                    id={option.code}
-                    disabled={gamePhase !== 2}
-                    type="radio"
-                    name="languageOption"
-                    value={option.name}
-                  />
+                <input
+                  id={option.code}
+                  disabled={gamePhase !== 2}
+                  type="radio"
+                  name="languageOption"
+                  value={option.name}
+                />
+                <label htmlFor={option.code}>
                   {option.name}
                 </label>
               </li>
@@ -284,7 +284,7 @@ export default function GamePanel(props) {
       <div className="bubble sender">
         {answerCorrect && <span>correct!</span>}
         {!answerCorrect && (
-          <span>sorry, the correct answer was {targetLanguage.name}</span>
+          <span>sorry, the correct answer was <strong>{targetLanguage.name}</strong></span>
         )}
       </div>
     );

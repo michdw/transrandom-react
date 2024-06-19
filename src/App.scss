@@ -3,6 +3,7 @@
   display: flex;
   flex-flow: column;
   align-items: center;
+  margin: 0;
 }
 
 .App-logo {
@@ -142,7 +143,8 @@ button.prompt {
 }
 
 .prompt-row:hover>.sendicon {
-  filter: invert(100%);
+  transform: scale(.9);
+  background-color: #444;
 }
 
 .sendicon {
@@ -207,44 +209,25 @@ button.prompt {
   }
 }
 
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
+
+.language-option {
+  line-height: 1.5em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.language-option{
-  font-family: system-ui, sans-serif;
-  font-size: 1.1em;
-  font-weight: bold;
-  line-height: 1.1;
-  display: grid;
-  grid-template-columns: 1em auto;
-  gap: 0.5em;
+.language-option input {
+  filter: invert(100%);
+  margin: 0 .5em;
+  height: .9em;
 }
 
-input[type="radio"] {
-  appearance: none;
-  background-color: red;
-  margin: 0;
-  font: inherit;
-  color: currentColor;
-  width: 1em;
-  height: 1em;
-  border: 0.1em solid currentColor;
-  border-radius: 50%;
+.language-option label {
+  transform: translateY(-.5px);
+  color: #ddd;
 }
 
-input[type="radio"]::before {
-  content: "";
-  width: 0.65em;
-  height: 0.65em;
-  border-radius: 50%;
-  transform: scale(0);
-  transition: 120ms transform ease-in-out;
-  box-shadow: inset 1em 1em var(--form-control-color);
-}
-
-.form-control+.form-control {
-  margin-top: 1em;
+.language-option label:hover {
+  color: #fff;
 }
