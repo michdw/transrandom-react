@@ -13,7 +13,6 @@ export default function GamePanel(props) {
   const [selectedOption, setSelectedOption] = useState();
   const [targetLanguage, setTargetLanguage] = useState();
   const [loading, setLoading] = useState(false);
-  const [repeatAttempt, setRepeatAttempt] = useState(false);
   const [fixedLetter, setFixedLetter] = useState(randomLetter());
   const [inputText, setInputText] = useState(fixedLetter);
   const [outputText, setOutputText] = useState("");
@@ -98,13 +97,11 @@ export default function GamePanel(props) {
     for (let i = 0; i < pastInputs.length; i++) {
       if (inputText === pastInputs[i]) {
         isNew = false;
-        setRepeatAttempt(true);
         setInputText("");
-      } else {
-        setGamePhase(1);
-      }
+      } 
     }
     if (isNew) {
+      setGamePhase(1);
       setPastInputs((prevPastInputs) => [...prevPastInputs, inputText]);
       getLanguageOptions();
     }
@@ -119,6 +116,12 @@ export default function GamePanel(props) {
     let objects = [];
     for (let i = 0; i < props.optionCount; i++) {
       let j = indexes[i];
+      let lang = allLanguages[j];
+      //modify any language names from how they are listed in API
+      if (lang.name.includes("Portuguese")) lang.name = "Portuguese";
+      if (lang.name.includes("Burmese")) lang.name = "Burmese";
+      if (lang.name.includes("Sinhalese")) lang.name = "Sinhalese";
+      console.log(allLanguages[j]);
       objects.push(allLanguages[j]);
     }
     setLanguageOptions(objects);
@@ -175,7 +178,6 @@ export default function GamePanel(props) {
     setSelectedOption(null);
     setTargetLanguage(null);
     setLoading(false);
-    setRepeatAttempt(false);
     setFixedLetter(randomLetter());
     setOutputText("");
     setGamePhase(0);
@@ -235,7 +237,8 @@ export default function GamePanel(props) {
           <p>What language is this?</p>
           {languageOptions &&
             languageOptions.map((option) => (
-              <li className="language-option"
+              <li
+                className="language-option"
                 key={option.code}
                 onClick={() => {
                   if (gamePhase === 2) {
@@ -254,9 +257,7 @@ export default function GamePanel(props) {
                   name="languageOption"
                   value={option.name}
                 />
-                <label htmlFor={option.code}>
-                  {option.name}
-                </label>
+                <label htmlFor={option.code}>{option.name}</label>
               </li>
             ))}
         </ul>
@@ -284,7 +285,9 @@ export default function GamePanel(props) {
       <div className="bubble sender">
         {answerCorrect && <span>correct!</span>}
         {!answerCorrect && (
-          <span>sorry, the correct answer was <strong>{targetLanguage.name}</strong></span>
+          <span>
+            sorry, the correct answer was <strong>{targetLanguage.name}</strong>
+          </span>
         )}
       </div>
     );
@@ -312,13 +315,9 @@ export default function GamePanel(props) {
       <div className="bubble sender init">
         Type something in English, beginning with the letter {fixedLetter}:
       </div>
-      {repeatAttempt && (
-        <div className="bubble sender">
-          That's already been translated - try something new!
-        </div>
-      )}
       {gamePhase === 0 && userInput()}
       {gamePhase === 0 && inputText.length > 1 && translateButton()}
+      {gamePhase > 0 && <div className="bubble recipient">{inputText}</div>}
       {gamePhase > 1 && optionPanel()}
       {gamePhase === 2 && selectedOption && submitButton()}
       {gamePhase > 2 && (
