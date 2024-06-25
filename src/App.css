@@ -18,7 +18,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #bbb;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -36,7 +36,13 @@
   padding: 1em;
   display: flex;
   flex-flow: column;
-  width: 400px;
+  width: 30%;
+}
+
+@media only screen and (max-width: 1100px) {
+  .GamePanel {
+    width: 400px;
+  }
 }
 
 /*  */
@@ -89,23 +95,25 @@ html {
 }
 
 .sender {
-  background-color: #333;
+  background-color: #0C595A;
   align-self: flex-start;
   border-radius: 1em;
   border-top-left-radius: 0;
 }
 
 .recipient {
-  background-color: darkblue;
+  background-color: #C03221;
   align-self: flex-end;
   border-radius: 1em;
   border-bottom-right-radius: 0;
 }
 
 .output-text {
-  font-size: 1.5em;
-  border-radius: .67em;
-  border-bottom-right-radius: 0;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  font-weight: bold;
+  border-radius: 1em;
+  border-top-right-radius: 0;
 }
 
 .prompt-row {
@@ -123,9 +131,10 @@ html {
 }
 
 .prompt {
-  background-color: #57595e;
+  background-color: #555;
   color: #fff;
   caret-color: #aaa;
+  /* border: 2px solid #fff; */
   border-radius: 1em;
   font-size: 1em;
   width: 70%;
@@ -139,20 +148,22 @@ input.prompt {
 
 button.prompt {
   text-align: center;
-  width: 75%
+  width: 75%;
+  background-color: #044162;
+  color: #fff;
 }
 
 .prompt-row:hover>button.prompt {
-  background-color: darkblue;
+  background-color: #02273B;
 }
 
 .prompt-row:hover>.sendicon {
   transform: scale(.9);
-  background-color: #444;
+  background-color: #000;
 }
 
 .sendicon {
-  background-color: #000;
+  background-color: #444;
   width: 1.5em;
   height: 1.5em;
   padding: .5em;
@@ -222,9 +233,36 @@ button.prompt {
 }
 
 .language-option input {
-  filter: invert(100%);
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 50%;
+  /* center */
+  background: #fff;
+  /* mid */
+  border: 3px solid #000;
+  /* outer */
+  box-shadow: 0 0 0 1px #FF5722;
   margin: 0 .5em;
   height: .9em;
+  width: .9em;
+}
+
+.language-option input.active-radio:hover {
+  /* center */
+  background: #fff;
+  /* mid */
+  border: 3px solid #000;
+  /* outer */
+  box-shadow: 0 0 0 1px lime;
+}
+
+.language-option input:checked {
+  /* center */
+  background: #fff;
+  /* mid */
+  border: 3px solid #000;
+  /* outer */
+  box-shadow: 0 0 0 1px cyan;
 }
 
 .language-option label {
@@ -232,6 +270,6 @@ button.prompt {
   color: #ddd;
 }
 
-.language-option label:hover {
+.language-option label.active-radioLabel:hover {
   color: #fff;
 }

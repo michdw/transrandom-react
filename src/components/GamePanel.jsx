@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import "../App.scss";
+import "../App.css";
 import React, { useEffect, useState, useRef } from "react";
 import { callTranslate } from "../TranslatorUtils";
 import { supportedLanguages } from "../LanguageList";
 import sendicon from "../assets/sendicon.png";
+import LanguageOption from "./LanguageOption";
 
 export default function GamePanel(props) {
   const allLanguages = getAllLanguages();
@@ -22,7 +23,6 @@ export default function GamePanel(props) {
   //state for whole game
   const [score, setScore] = useState(0);
   const [guesses, setGuesses] = useState(0);
-  const [pastInputs, setPastInputs] = useState([]);
 
   //
   const inputRef = useRef(null);
@@ -93,18 +93,8 @@ export default function GamePanel(props) {
   }, [targetLanguage]);
 
   function submitText() {
-    let isNew = true;
-    for (let i = 0; i < pastInputs.length; i++) {
-      if (inputText === pastInputs[i]) {
-        isNew = false;
-        setInputText("");
-      } 
-    }
-    if (isNew) {
-      setGamePhase(1);
-      setPastInputs((prevPastInputs) => [...prevPastInputs, inputText]);
-      getLanguageOptions();
-    }
+    setGamePhase(1);
+    getLanguageOptions();
   }
 
   function getLanguageOptions() {
@@ -116,12 +106,6 @@ export default function GamePanel(props) {
     let objects = [];
     for (let i = 0; i < props.optionCount; i++) {
       let j = indexes[i];
-      let lang = allLanguages[j];
-      //modify any language names from how they are listed in API
-      if (lang.name.includes("Portuguese")) lang.name = "Portuguese";
-      if (lang.name.includes("Burmese")) lang.name = "Burmese";
-      if (lang.name.includes("Sinhalese")) lang.name = "Sinhalese";
-      console.log(allLanguages[j]);
       objects.push(allLanguages[j]);
     }
     setLanguageOptions(objects);
@@ -158,9 +142,9 @@ export default function GamePanel(props) {
     setScore((prevScore) => (answerCorrect ? prevScore + 1 : prevScore));
   }, [guesses]);
 
-  function selectOption(option) {
-    setSelectedOption(option);
-  }
+  // function selectOption(option) {
+  //   setSelectedOption(option);
+  // }
 
   function submitGuess(selectedOption) {
     setGamePhase(3);
@@ -237,28 +221,7 @@ export default function GamePanel(props) {
           <p>What language is this?</p>
           {languageOptions &&
             languageOptions.map((option) => (
-              <li
-                className="language-option"
-                key={option.code}
-                onClick={() => {
-                  if (gamePhase === 2) {
-                    document.getElementById(option.code).checked = true;
-                    selectOption(option);
-                  }
-                  console.log(selectedOption);
-                  console.log(gamePhase);
-                }}
-                style={{ cursor: gamePhase === 2 ? "pointer" : "not-allowed" }}
-              >
-                <input
-                  id={option.code}
-                  disabled={gamePhase !== 2}
-                  type="radio"
-                  name="languageOption"
-                  value={option.name}
-                />
-                <label htmlFor={option.code}>{option.name}</label>
-              </li>
+              <LanguageOption option={option} gamePhase={gamePhase} selectOption={() => setSelectedOption(option)}/>
             ))}
         </ul>
       </section>
