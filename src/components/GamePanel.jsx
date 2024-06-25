@@ -142,10 +142,6 @@ export default function GamePanel(props) {
     setScore((prevScore) => (answerCorrect ? prevScore + 1 : prevScore));
   }, [guesses]);
 
-  // function selectOption(option) {
-  //   setSelectedOption(option);
-  // }
-
   function submitGuess(selectedOption) {
     setGamePhase(3);
     setAnswerCorrect(
