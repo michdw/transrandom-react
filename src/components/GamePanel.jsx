@@ -56,8 +56,6 @@ export default function GamePanel(props) {
     return alphabet[Math.floor(Math.random() * alphabet.length)];
   }
 
-  // user input functions
-
   function handleFixedLetterInput(e) {
     const newValue = e.target.value;
     if (newValue.startsWith(fixedLetter)) {
@@ -76,6 +74,7 @@ export default function GamePanel(props) {
         : e.target.setSelectionRange(1, endPos);
     }
   }
+
 
   //translate sequence
 
@@ -217,7 +216,11 @@ export default function GamePanel(props) {
           <p>What language is this?</p>
           {languageOptions &&
             languageOptions.map((option) => (
-              <LanguageOption option={option} gamePhase={gamePhase} selectOption={() => setSelectedOption(option)}/>
+              <LanguageOption
+                option={option}
+                gamePhase={gamePhase}
+                selectOption={() => setSelectedOption(option)}
+              />
             ))}
         </ul>
       </section>
@@ -263,8 +266,9 @@ export default function GamePanel(props) {
 
   const scoreboard = () => {
     return (
-      <div>
-        {score} out of {guesses} correct
+      <div className="scoreboard">
+        <span className="score-num">{score}</span> out of{" "}
+        <span className="score-num">{guesses}</span> correct
       </div>
     );
   };
@@ -274,7 +278,9 @@ export default function GamePanel(props) {
       <div className="bubble sender init">
         Type something in English, beginning with the letter {fixedLetter}:
       </div>
-      {gamePhase === 0 && userInput()}
+      {gamePhase === 0 && (
+        userInput()
+      )}
       {gamePhase === 0 && inputText.length > 1 && translateButton()}
       {gamePhase > 0 && <div className="bubble recipient">{inputText}</div>}
       {gamePhase > 1 && optionPanel()}

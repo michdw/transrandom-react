@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "./App.css";
+import "./Animation.css";
+import "./Scale.css";
 import React from "react";
 
 import GamePanel from "./components/GamePanel";
@@ -9,10 +11,7 @@ export default function App() {
 
   return (
     <section className="App">
-      <GamePanel className="discussion" optionCount={optionCount} />
-      <div style={{ fontSize: "10px" }}>
-        This app is under construction- will look better soon!
-      </div>
+      <GamePanel optionCount={optionCount} />
     </section>
   );
 }

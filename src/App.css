@@ -6,16 +6,12 @@
   margin: 0;
 }
 
+/* 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
-}
+} */
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
 .App-header {
   background-color: #bbb;
@@ -33,17 +29,13 @@
 }
 
 .GamePanel {
+  margin: 2em 0;
   padding: 1em;
   display: flex;
   flex-flow: column;
   width: 30%;
 }
 
-@media only screen and (max-width: 1100px) {
-  .GamePanel {
-    width: 400px;
-  }
-}
 
 /*  */
 
@@ -91,7 +83,7 @@ html {
   color: #fff;
   margin: .5em;
   padding: .5em;
-  border: 0;
+  border: none;
 }
 
 .sender {
@@ -125,16 +117,15 @@ html {
 
 .prompt-row>.prompt,
 .prompt-row>.sendicon {
-  /* padding: .5em; */
   margin: .5em;
   align-self: center;
 }
 
 .prompt {
-  background-color: #555;
+  background-color: #555350;
+  border: 1px solid #353331;
   color: #fff;
   caret-color: #aaa;
-  /* border: 2px solid #fff; */
   border-radius: 1em;
   font-size: 1em;
   width: 70%;
@@ -183,47 +174,24 @@ button.prompt {
   border-radius: 100%;
 }
 
-/* animations */
-
-.bubble,
-.sendicon {
-  animation: fadeIn .5s;
+.scoreboard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1em;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
+.score-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #2a2927;
+  color: #fff;
+  font-size: 1.4em;
+  width: 30px;
+  height: 40px;
+  margin: .3em;
 }
-
-@keyframes flip {
-  25% {
-    transform: rotateX(180deg);
-  }
-
-  50% {
-    transform: rotateX(0deg);
-  }
-
-  75% {
-    transform: rotateY(180deg);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    transform: rotate3d(1, 0, 0, 90deg);
-  }
-
-  to {
-    transform: 0;
-  }
-}
-
 
 .language-option {
   line-height: 1.5em;
@@ -249,7 +217,7 @@ button.prompt {
 
 .language-option input.active-radio:hover {
   /* mid */
-  border: 3px solid #093E3F;
+  border: 3px solid #0C595A;
 }
 
 .language-option input:checked {
