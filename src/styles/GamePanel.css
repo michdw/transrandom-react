@@ -1,46 +1,15 @@
-.App {
-  text-align: center;
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  margin: 0;
-}
-
-/* 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-} */
-
-
-.App-header {
-  background-color: #bbb;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
 .GamePanel {
-  margin: 2em 0;
-  padding: 1em;
+  height: 100%;
   display: flex;
   flex-flow: column;
-  width: 30%;
+  width: 33%;
+  color: #fff;
 }
 
-
-/*  */
-
-html {
-  font-family: 'PT Sans', Georgia, serif;
+@media only screen and (max-width: 1200px) {
+  .GamePanel {
+    width: 400px;
+  }
 }
 
 /* game panel */
@@ -79,11 +48,15 @@ html {
 }
 
 .bubble {
-  width: 70%;
-  color: #fff;
-  margin: .5em;
-  padding: .5em;
+  padding: .6em;
   border: none;
+  width: 70%;
+  margin: .5em;
+}
+
+.sender,
+.recipient {
+  padding: .8em;
 }
 
 .sender {
@@ -111,8 +84,7 @@ html {
 .prompt-row {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  margin: 0 15%;
+  justify-content: center;
 }
 
 .prompt-row>.prompt,
@@ -124,29 +96,31 @@ html {
 .prompt {
   background-color: #555350;
   border: 1px solid #353331;
-  color: #fff;
   caret-color: #aaa;
   border-radius: 1em;
   font-size: 1em;
-  width: 70%;
+  display: inline-block;
 }
 
 input.prompt {
   padding-left: 1em;
   width: 70%;
   align-self: center;
+  color: #fff;
 }
 
-button.prompt {
+input.prompt:focus {
+  border: none;
+}
+
+/* button.prompt {
   text-align: center;
-  width: 75%;
   background-color: #044162;
-  color: #fff;
 }
 
 .prompt-row:hover>button.prompt {
   background-color: #02273B;
-}
+} */
 
 .prompt-row:hover>.sendicon {
   transform: scale(.9);
@@ -155,12 +129,19 @@ button.prompt {
 
 .sendicon {
   background-color: #444;
-  width: 1.5em;
-  height: 1.5em;
+  border-radius: 1em;
+  border: none;
   padding: .5em;
-  border-radius: 100%;
   display: flex;
   justify-content: center;
+}
+
+.sendicon span {
+  color: #fff;
+}
+
+.sendicon:hover {
+  cursor: pointer;
 }
 
 .sendicon img {
@@ -186,7 +167,6 @@ button.prompt {
   align-items: center;
   justify-content: center;
   background: #2a2927;
-  color: #fff;
   font-size: 1.4em;
   width: 30px;
   height: 40px;

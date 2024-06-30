@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import "../App.css";
+import "../styles/GamePanel.css";
 import React, { useEffect, useState, useRef } from "react";
 import { callTranslate } from "../TranslatorUtils";
 import { supportedLanguages } from "../LanguageList";
@@ -74,7 +74,6 @@ export default function GamePanel(props) {
         : e.target.setSelectionRange(1, endPos);
     }
   }
-
 
   //translate sequence
 
@@ -167,9 +166,10 @@ export default function GamePanel(props) {
 
   const sendIcon = () => {
     return (
-      <span className="sendicon">
+      <button className="sendicon">
+        {gamePhase === 4 ? <span>Play again</span> : <span>Submit</span>}
         <img src={sendicon} alt="SendIcon" />
-      </span>
+      </button>
     );
   };
 
@@ -198,9 +198,9 @@ export default function GamePanel(props) {
   const translateButton = () => {
     return (
       <div className="prompt-row" onClick={submitText}>
-        <button className="bubble prompt" disabled={gamePhase !== 0}>
+        {/* <button className="bubble prompt" disabled={gamePhase !== 0}>
           Click to translate
-        </button>
+        </button> */}
         {sendIcon()}
       </div>
     );
@@ -234,9 +234,9 @@ export default function GamePanel(props) {
         hidden={!selectedOption}
         onClick={() => submitGuess(selectedOption)}
       >
-        <button className="bubble prompt" type="submit">
+        {/* <button className="bubble prompt" type="submit">
           Submit guess
-        </button>
+        </button> */}
         {sendIcon()}
       </div>
     );
@@ -258,7 +258,6 @@ export default function GamePanel(props) {
   const playAgainBtn = () => {
     return (
       <div className="prompt-row" onClick={playAgain}>
-        <button className="bubble prompt">Play again</button>
         {sendIcon()}
       </div>
     );
@@ -278,9 +277,7 @@ export default function GamePanel(props) {
       <div className="bubble sender init">
         Type something in English, beginning with the letter {fixedLetter}:
       </div>
-      {gamePhase === 0 && (
-        userInput()
-      )}
+      {gamePhase === 0 && userInput()}
       {gamePhase === 0 && inputText.length > 1 && translateButton()}
       {gamePhase > 0 && <div className="bubble recipient">{inputText}</div>}
       {gamePhase > 1 && optionPanel()}
@@ -290,7 +287,7 @@ export default function GamePanel(props) {
       )}
       {gamePhase === 4 && resultMessage()}
       {gamePhase === 4 && playAgainBtn()}
-      {guesses > 0 && scoreboard()}
+      {scoreboard()}
       {loading && <div className="spinner">文</div>}
     </section>
   );
