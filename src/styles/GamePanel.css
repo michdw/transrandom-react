@@ -44,7 +44,6 @@
 .spinner {
   font-size: 6em;
   opacity: .3;
-  animation: flip 1s linear infinite;
 }
 
 .bubble {
@@ -87,12 +86,6 @@
   justify-content: center;
 }
 
-.prompt-row>.prompt,
-.prompt-row>.sendicon {
-  margin: .5em;
-  align-self: center;
-}
-
 .prompt {
   background-color: #555350;
   border: 1px solid #353331;
@@ -113,46 +106,33 @@ input.prompt:focus {
   border: none;
 }
 
-/* button.prompt {
-  text-align: center;
-  background-color: #044162;
-}
-
-.prompt-row:hover>button.prompt {
-  background-color: #02273B;
-} */
-
-.prompt-row:hover>.sendicon {
-  transform: scale(.9);
-  background-color: #000;
-}
-
-.sendicon {
+.prompt-btn {
   background-color: #444;
   border-radius: 1em;
   border: none;
   padding: .5em;
+  margin: .5em;
   display: flex;
   justify-content: center;
-}
-
-.sendicon span {
-  color: #fff;
-}
-
-.sendicon:hover {
-  cursor: pointer;
-}
-
-.sendicon img {
-  width: 1em;
   align-self: center;
 }
 
-.sendicon-underlay {
+.prompt-row:hover>.prompt-btn {
+  transform: scale(.9);
   background-color: #000;
-  padding: .5em;
-  border-radius: 100%;
+}
+
+.prompt-btn span {
+  color: #fff;
+}
+
+.prompt-btn:hover {
+  cursor: pointer;
+}
+
+.prompt-btn img {
+  width: 1em;
+  align-self: center;
 }
 
 .scoreboard {

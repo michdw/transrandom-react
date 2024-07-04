@@ -1,8 +1,11 @@
 @media (prefers-reduced-motion: no-preference) {
 
     .bubble,
-    .sendicon {
-        animation: fadeIn .5s;
+    .prompt-btn {
+        animation: verticalExpand .5s;
+    }
+    .spinner {
+        animation: flip 1s linear infinite;
     }
 }
 
@@ -30,7 +33,7 @@
     }
 }
 
-@keyframes fadeIn {
+@keyframes verticalExpand {
     from {
         transform: rotate3d(1, 0, 0, 90deg);
     }

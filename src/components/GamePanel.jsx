@@ -162,14 +162,42 @@ export default function GamePanel(props) {
     setAnswerCorrect(null);
   }
 
-  // elements
+  // prompt buttons
 
-  const sendIcon = () => {
+  const promptBtn = (btnText) => {
     return (
-      <button className="sendicon">
-        {gamePhase === 4 ? <span>Play again</span> : <span>Submit</span>}
+      <button className="prompt-btn">
+        <span>{btnText}</span>
         <img src={sendicon} alt="SendIcon" />
       </button>
+    );
+  };
+
+  const translateButton = () => {
+    return (
+      <div className="prompt-row" onClick={submitText}>
+        {promptBtn("Translate this")}
+      </div>
+    );
+  };
+
+  const submitButton = () => {
+    return (
+      <div
+        className="prompt-row"
+        hidden={!selectedOption}
+        onClick={() => submitGuess(selectedOption)}
+      >
+        {promptBtn("Submit guess")}
+      </div>
+    );
+  };
+
+  const playAgainBtn = () => {
+    return (
+      <div className="prompt-row" onClick={playAgain}>
+        {promptBtn("Play again")}
+      </div>
     );
   };
 
@@ -195,17 +223,6 @@ export default function GamePanel(props) {
     );
   };
 
-  const translateButton = () => {
-    return (
-      <div className="prompt-row" onClick={submitText}>
-        {/* <button className="bubble prompt" disabled={gamePhase !== 0}>
-          Click to translate
-        </button> */}
-        {sendIcon()}
-      </div>
-    );
-  };
-
   const optionPanel = () => {
     return (
       <section className="optionPanel">
@@ -227,21 +244,6 @@ export default function GamePanel(props) {
     );
   };
 
-  const submitButton = () => {
-    return (
-      <div
-        className="prompt-row"
-        hidden={!selectedOption}
-        onClick={() => submitGuess(selectedOption)}
-      >
-        {/* <button className="bubble prompt" type="submit">
-          Submit guess
-        </button> */}
-        {sendIcon()}
-      </div>
-    );
-  };
-
   const resultMessage = () => {
     return (
       <div className="bubble sender">
@@ -251,14 +253,6 @@ export default function GamePanel(props) {
             sorry, the correct answer was <strong>{targetLanguage.name}</strong>
           </span>
         )}
-      </div>
-    );
-  };
-
-  const playAgainBtn = () => {
-    return (
-      <div className="prompt-row" onClick={playAgain}>
-        {sendIcon()}
       </div>
     );
   };
