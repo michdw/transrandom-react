@@ -5,6 +5,7 @@ import { callTranslate } from "../TranslatorUtils";
 import { supportedLanguages } from "../LanguageList";
 import sendicon from "../assets/sendicon.png";
 import LanguageOption from "./LanguageOption";
+import Scoreboard from "./Scoreboard";
 
 export default function GamePanel(props) {
   const allLanguages = getAllLanguages();
@@ -142,11 +143,11 @@ export default function GamePanel(props) {
 
   function submitGuess(selectedOption) {
     setGamePhase(3);
-    setAnswerCorrect(
-      selectedOption.code === targetLanguage.code ? true : false
-    );
-    setGuesses((prevGuesses) => prevGuesses + 1);
     sleep(200).then(() => {
+      setAnswerCorrect(
+        selectedOption.code === targetLanguage.code ? true : false
+      );
+      setGuesses((prevGuesses) => prevGuesses + 1);
       setGamePhase(4);
     });
   }
@@ -164,9 +165,9 @@ export default function GamePanel(props) {
 
   // prompt buttons
 
-  const promptBtn = (btnText) => {
+  const promptBtn = (btnText, action) => {
     return (
-      <button className="prompt-btn">
+      <button className="prompt-btn" onClick={action}>
         <span>{btnText}</span>
         <img src={sendicon} alt="SendIcon" />
       </button>
@@ -175,28 +176,24 @@ export default function GamePanel(props) {
 
   const translateButton = () => {
     return (
-      <div className="prompt-row" onClick={submitText}>
-        {promptBtn("Translate this")}
+      <div className="prompt-row">
+        {promptBtn("Translate this", () => submitText())}
       </div>
     );
   };
 
   const submitButton = () => {
     return (
-      <div
-        className="prompt-row"
-        hidden={!selectedOption}
-        onClick={() => submitGuess(selectedOption)}
-      >
-        {promptBtn("Submit guess")}
+      <div className="prompt-row" hidden={!selectedOption}>
+        {promptBtn("Submit guess", () => submitGuess(selectedOption))}
       </div>
     );
   };
 
   const playAgainBtn = () => {
     return (
-      <div className="prompt-row" onClick={playAgain}>
-        {promptBtn("Play again")}
+      <div className="prompt-row">
+        {promptBtn("Play again", () => playAgain())}
       </div>
     );
   };
@@ -257,15 +254,6 @@ export default function GamePanel(props) {
     );
   };
 
-  const scoreboard = () => {
-    return (
-      <div className="scoreboard">
-        <span className="score-num">{score}</span> out of{" "}
-        <span className="score-num">{guesses}</span> correct
-      </div>
-    );
-  };
-
   return (
     <section className="GamePanel">
       <div className="bubble sender init">
@@ -281,8 +269,8 @@ export default function GamePanel(props) {
       )}
       {gamePhase === 4 && resultMessage()}
       {gamePhase === 4 && playAgainBtn()}
-      {scoreboard()}
       {loading && <div className="spinner">文</div>}
+      <Scoreboard score={score} guesses={guesses} />
     </section>
   );
 }

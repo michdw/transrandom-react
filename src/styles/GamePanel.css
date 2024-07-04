@@ -84,6 +84,7 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin: 1em 0;
 }
 
 .prompt {
@@ -108,30 +109,28 @@ input.prompt:focus {
 
 .prompt-btn {
   background-color: #444;
+  color: #fff;
   border-radius: 1em;
   border: none;
-  padding: .5em;
+  padding: .5em 1em;
   margin: .5em;
   display: flex;
   justify-content: center;
   align-self: center;
+  transition: all .1s ease-in-out;
 }
 
-.prompt-row:hover>.prompt-btn {
-  transform: scale(.9);
+.prompt-btn:hover {
+  transform: scale(1.1);
   background-color: #000;
 }
-
-.prompt-btn span {
-  color: #fff;
-}
-
 .prompt-btn:hover {
   cursor: pointer;
 }
 
 .prompt-btn img {
   width: 1em;
+  margin-left: .5em;
   align-self: center;
 }
 
