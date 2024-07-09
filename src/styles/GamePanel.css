@@ -1,3 +1,17 @@
+
+
+/* components */
+
+.Scoreboard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1em;
+  border: 1px solid #817C74;
+  background-color: #949089;
+  border-radius: 1em;
+}
+
 .GamePanel {
   height: 100%;
   display: flex;
@@ -10,6 +24,16 @@
   .GamePanel {
     width: 400px;
   }
+}
+
+.Scoreboard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1em;
+  border: 1px solid #817C74;
+  background-color: #949089;
+  border-radius: 1em;
 }
 
 /* game panel */
@@ -117,13 +141,13 @@ input.prompt:focus {
   display: flex;
   justify-content: center;
   align-self: center;
-  transition: all .1s ease-in-out;
 }
 
 .prompt-btn:hover {
-  transform: scale(1.1);
-  background-color: #000;
+  transform: scale(1.05);
+  background-color: #333;
 }
+
 .prompt-btn:hover {
   cursor: pointer;
 }
@@ -134,18 +158,12 @@ input.prompt:focus {
   align-self: center;
 }
 
-.scoreboard {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1em;
-}
-
 .score-num {
-  display: inline-flex;
+  font-family: "Rubik";
+    display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #2a2927;
+  background: #413D3A;
   font-size: 1.4em;
   width: 30px;
   height: 40px;
