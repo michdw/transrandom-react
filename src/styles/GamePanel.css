@@ -2,16 +2,6 @@
 
 /* components */
 
-.Scoreboard {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1em;
-  border: 1px solid #817C74;
-  background-color: #949089;
-  border-radius: 1em;
-}
-
 .GamePanel {
   height: 100%;
   display: flex;
@@ -30,9 +20,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  align-self: center;
+  padding: 0 1em;
   margin-top: 1em;
-  border: 1px solid #817C74;
-  background-color: #949089;
+  border: 1px solid #949089;
+  background-color: #9E9A94;
   border-radius: 1em;
 }
 
