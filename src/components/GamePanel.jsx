@@ -224,7 +224,9 @@ export default function GamePanel(props) {
     return (
       <section className="optionPanel">
         {!loading && (
-          <div className="bubble recipient output-text">{outputText}</div>
+          <div className="bubble recipient output">
+            <span className="output-text">{outputText}</span>
+          </div>
         )}
         <ul className="radioContainer bubble sender">
           <p>What language is this?</p>

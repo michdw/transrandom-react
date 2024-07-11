@@ -88,12 +88,14 @@
   border-bottom-right-radius: 0;
 }
 
-.output-text {
-  padding-top: 1em;
-  padding-bottom: 1em;
-  font-weight: bold;
+.output {
   border-radius: 1em;
-  border-top-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.output-text {
+  font-weight: bold;
+  font-size: 1.25em;
 }
 
 .prompt-row {

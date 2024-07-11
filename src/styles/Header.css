@@ -5,4 +5,21 @@
     color: #fff;
     padding: 1em 0;
     margin-bottom: 1em;
+    display: flex;
+    align-items: center;
+}
+
+
+.header-icon {
+    height: 30px;
+    margin-left: 1em;
+}
+
+.header-text {
+    margin-left: .5em;
+}
+
+.header-text, .header-text a{
+    color: #fff;
+    font-size: 14px;
 }
