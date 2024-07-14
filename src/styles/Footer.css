@@ -1,0 +1,23 @@
+
+
+.footer-item {
+    display: flex;
+    flex-direction: row;
+}
+
+.footer-icon {
+    height: 30px;
+    margin-left: 1em;
+}
+
+.footer-text {
+    margin-left: .5em;
+    display: flex;
+    align-items: center;
+}
+
+.footer-text,
+.footer-text a {
+    color: #fff;
+    font-size: 14px;
+}

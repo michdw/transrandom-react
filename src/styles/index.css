@@ -1,13 +1,10 @@
-html {
-  background-color: #A8A49F;
-  font-family: 'PT Sans', Georgia, serif;
-}
 
 body {
+  background-color: #A8A49F;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-  sans-serif;
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -17,13 +14,34 @@ code {
     monospace;
 }
 
-
 .App {
   text-align: center;
   display: flex;
-  flex-flow: column;  align-items: center;
+  flex-flow: column nowrap;
+  align-items: center;
   margin: 0;
-  font-family: "Ubuntu", ;
+  font-family: "Ubuntu";
+  min-height: 100vh;
+}
+
+.GamePanel {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  width: 33%;
+  color: #fff;
+  flex-grow: 1;
+  margin-top: 1em;
+}
+
+.Footer {
+  background-color: #363430;
+  height: 1em;
+  width: 100%;
+  color: #fff;
+  padding: 1em 0;
+  display: flex;
+  align-items: center;
 }
 
 .App-header {
