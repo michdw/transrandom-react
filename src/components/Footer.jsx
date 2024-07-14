@@ -17,7 +17,7 @@ export default function Footer() {
       <div className="footer-item">
         <img className="footer-icon" src={reactIcon} alt="react logo" />
         <span className="footer-text">
-          Made with React by{" "}
+          Made with React by&nbsp;
           <a
             target="_blank"
             rel="noreferrer"

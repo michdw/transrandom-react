@@ -1,6 +1,4 @@
-
 body {
-  background-color: #A8A49F;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -22,6 +20,19 @@ code {
   margin: 0;
   font-family: "Ubuntu";
   min-height: 100vh;
+  background-color: #A8A49F;
+}
+
+.bg-pattern {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../assets/dotpattern.png");
+  background-size: 300px;
+  z-index: 0;
+  opacity: .6;
 }
 
 .GamePanel {
@@ -31,7 +42,10 @@ code {
   width: 33%;
   color: #fff;
   flex-grow: 1;
-  margin-top: 1em;
+  padding-top: 1em;
+  background-color: #A8A49F;
+  z-index: 1;
+  box-shadow: 0 0 1000px 100px #A8A49F;
 }
 
 .Footer {
@@ -42,6 +56,7 @@ code {
   padding: 1em 0;
   display: flex;
   align-items: center;
+  z-index: 2;
 }
 
 .App-header {
