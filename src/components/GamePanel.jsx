@@ -246,10 +246,10 @@ export default function GamePanel(props) {
   const resultMessage = () => {
     return (
       <div className="bubble sender">
-        {answerCorrect && <span>correct!</span>}
+        {answerCorrect && <span>Correct!</span>}
         {!answerCorrect && (
           <span>
-            sorry, the correct answer was <strong>{targetLanguage.name}</strong>
+            Sorry, the correct answer was <strong>{targetLanguage.name}</strong>
           </span>
         )}
       </div>

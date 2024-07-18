@@ -12,7 +12,7 @@
   padding: 0 1em;
   margin-top: 1em;
   border: 1px solid #949089;
-  background-color: #9E9A94;
+  background-image: linear-gradient(#9e9a94, #99958f);
   border-radius: 1em;
 }
 
@@ -61,14 +61,14 @@
 }
 
 .sender {
-  background-color: #0C595A;
+  background-image: linear-gradient(#0c585a, #0b4e51);
   align-self: flex-start;
   border-radius: 1em;
   border-top-left-radius: 0;
 }
 
 .recipient {
-  background-color: #C03221;
+  background-image: linear-gradient(#C03021, #AE2C1E);
   align-self: flex-end;
   border-radius: 1em;
   border-bottom-right-radius: 0;
@@ -76,12 +76,12 @@
 
 .output {
   border-radius: 1em;
-    border-top-right-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .output-text {
   font-weight: bold;
-  font-size: 1.25em;
+  font-size: 1.4em;
 }
 
 .prompt-row {
@@ -92,8 +92,8 @@
 }
 
 .prompt {
-  background-color: #555350;
-  border: 1px solid #353331;
+  background-image: linear-gradient(#54534F, #4A4945);
+  border: 1px solid #353431;
   caret-color: #aaa;
   border-radius: 1em;
   font-size: 1em;
@@ -112,7 +112,7 @@ input.prompt:focus {
 }
 
 .prompt-btn {
-  background-color: #444;
+  background-image: linear-gradient(#4A4945, #3F3E3B);
   color: #fff;
   border-radius: 1em;
   border: none;
@@ -125,7 +125,7 @@ input.prompt:focus {
 
 .prompt-btn:hover {
   transform: scale(1.05);
-  background-color: #333;
+  background-image: linear-gradient(#333, #333);
 }
 
 .prompt-btn:hover {
@@ -140,10 +140,10 @@ input.prompt:focus {
 
 .score-num {
   font-family: "Rubik";
-    display: inline-flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #413D3A;
+  background: #3F3E3B;
   font-size: 1.4em;
   width: 30px;
   height: 40px;
@@ -161,13 +161,13 @@ input.prompt:focus {
   appearance: none;
   -webkit-appearance: none;
   border-radius: 50%;
-  margin: 0 .5em;
+  margin: 0 .8em;
   height: .9em;
   width: .9em;
   /* center */
   background: #F0F0C9;
   /* mid */
-  border: 2px solid #0C595A;
+  border: 2px solid #0C585A;
   /* outer */
   box-shadow: 0 0 0 1px #F0F0C9;
 }
