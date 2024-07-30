@@ -212,6 +212,9 @@ export default function GamePanel(props) {
         onKeyUp={(e) => {
           limitSelection(e);
         }}
+        onKeyDown={(e) => {
+          inputText.length > 1 && e.key === "Enter" && submitText();
+        }}
         onChange={(e) => {
           setInputText(e.target.value);
           handleFixedLetterInput(e);
@@ -222,7 +225,12 @@ export default function GamePanel(props) {
 
   const optionPanel = () => {
     return (
-      <section className="optionPanel">
+      <section
+        className="optionPanel"
+        onKeyDown={(e) => {
+          e.key === "Enter" && selectedOption && submitGuess(selectedOption);
+        }}
+      >
         {!loading && (
           <div className="bubble recipient output">
             <span className="output-text">{outputText}</span>
@@ -231,11 +239,12 @@ export default function GamePanel(props) {
         <ul className="radioContainer bubble sender">
           <p>What language is this?</p>
           {languageOptions &&
-            languageOptions.map((option) => (
+            languageOptions.map((option, index) => (
               <LanguageOption
+                key={index}
                 option={option}
                 gamePhase={gamePhase}
-                selectOption={() => setSelectedOption(option)}
+                selectOption={(option) => setSelectedOption(option)}
               />
             ))}
         </ul>
@@ -257,7 +266,9 @@ export default function GamePanel(props) {
   };
 
   return (
-    <section className="GamePanel">
+    <section
+      className="GamePanel"
+    >
       <div className="bubble sender init">
         Type something in English, beginning with the letter {fixedLetter}:
       </div>
