@@ -33,14 +33,6 @@ code {
   left: 0;
 }
 
-@media only screen and (max-width: 700px) {
-  .tr-icon {
-    width: 50px;
-    left: inherit;
-    right: 0;
-  }
-}
-
 .bg-pattern {
   position: absolute;
   left: 0;
@@ -48,9 +40,9 @@ code {
   width: 100%;
   height: 100%;
   background-image: url("../assets/dotpattern.png");
-  background-size: 600px;
+  background-size: 400px;
   z-index: 0;
-  opacity: .5;
+  opacity: .8;
 }
 
 .GamePanel {
@@ -86,6 +78,22 @@ code {
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+@media only screen and (max-width: 700px) {
+  .tr-icon {
+    width: 50px;
+    left: inherit;
+    right: 0;
+  }
+  .GamePanel {
+    background: none;
+    box-shadow: none;
+  }
+  .bg-pattern {
+    background-size: 300px;
+    opacity: .3;
+  }
 }
 
 /* fonts */
