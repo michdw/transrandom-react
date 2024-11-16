@@ -15,7 +15,7 @@ export default function GamePanel(props) {
   const [selectedOption, setSelectedOption] = useState();
   const [targetLanguage, setTargetLanguage] = useState();
   const [loading, setLoading] = useState(false);
-  const [fixedLetter, setFixedLetter] = useState(randomLetter());
+  const [fixedLetter, setFixedLetter] = useState(getRandomLetter());
   const [inputText, setInputText] = useState(fixedLetter);
   const [outputText, setOutputText] = useState("");
   const [gamePhase, setGamePhase] = useState(0);
@@ -52,9 +52,17 @@ export default function GamePanel(props) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  function randomLetter() {
+  function getRandomLetter() {
     const alphabet = "abcdefghijklmnopqrstuvwxyz";
     return alphabet[Math.floor(Math.random() * alphabet.length)];
+  }
+
+  function changeRandomLetter() {
+    let rLetter = getRandomLetter();
+    if(fixedLetter) {
+      do {getRandomLetter()} while (rLetter === fixedLetter)
+    }
+    return rLetter;
   }
 
   function handleFixedLetterInput(e) {
@@ -157,7 +165,7 @@ export default function GamePanel(props) {
     setSelectedOption(null);
     setTargetLanguage(null);
     setLoading(false);
-    setFixedLetter(randomLetter());
+    setFixedLetter(changeRandomLetter());
     setOutputText("");
     setGamePhase(0);
     setAnswerCorrect(null);
