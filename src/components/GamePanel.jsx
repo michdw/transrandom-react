@@ -6,7 +6,6 @@ import { supportedLanguages } from "../LanguageList";
 import sendicon from "../assets/sendicon.png";
 import LanguageOption from "./LanguageOption";
 import Scoreboard from "./Scoreboard";
-import trdark from "../assets/trdark.png";
 
 export default function GamePanel(props) {
   const allLanguages = getAllLanguages();
