@@ -6,6 +6,7 @@ import { supportedLanguages } from "../LanguageList";
 import sendicon from "../assets/sendicon.png";
 import LanguageOption from "./LanguageOption";
 import Scoreboard from "./Scoreboard";
+import trdark from "../assets/trdark.png";
 
 export default function GamePanel(props) {
   const allLanguages = getAllLanguages();
@@ -266,11 +267,9 @@ export default function GamePanel(props) {
   };
 
   return (
-    <section
-      className="GamePanel"
-    >
+    <section className="GamePanel">
       <div className="bubble sender init">
-        Type something in English, beginning with the letter {fixedLetter}:
+        Type something in English, beginning with the letter {fixedLetter.toUpperCase()}:
       </div>
       {gamePhase === 0 && userInput()}
       {gamePhase === 0 && inputText.length > 1 && translateButton()}

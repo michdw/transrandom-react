@@ -10,9 +10,9 @@
   justify-content: center;
   align-self: center;
   padding: 0 1em;
-  margin-top: 1em;
+  margin: 2em 0;
   border: 1px solid #949089;
-  background-image: linear-gradient(#9e9a94, #99958f);
+  background-image: linear-gradient(#9e9a94, #97938d);
   border-radius: 1em;
 }
 
@@ -31,7 +31,7 @@
 }
 
 .radioContainer p {
-  padding-bottom: .5em;
+  padding-bottom: 0.5em;
 }
 
 .optionPanel p {
@@ -45,19 +45,19 @@
 
 .spinner {
   font-size: 6em;
-  opacity: .3;
+  opacity: 0.3;
 }
 
 .bubble {
-  padding: .6em;
+  padding: 0.6em;
   border: none;
   width: 70%;
-  margin: .5em;
+  margin: 0.5em;
 }
 
 .sender,
 .recipient {
-  padding: .8em;
+  padding: 0.8em;
 }
 
 .sender {
@@ -68,7 +68,7 @@
 }
 
 .recipient {
-  background-image: linear-gradient(#C03021, #AE2C1E);
+  background-image: linear-gradient(#c03021, #ae2c1e);
   align-self: flex-end;
   border-radius: 1em;
   border-bottom-right-radius: 0;
@@ -92,7 +92,7 @@
 }
 
 .prompt {
-  background-image: linear-gradient(#54534F, #4A4945);
+  background-image: linear-gradient(#54534f, #4a4945);
   border: 1px solid #353431;
   caret-color: #aaa;
   border-radius: 1em;
@@ -112,12 +112,12 @@ input.prompt:focus {
 }
 
 .prompt-btn {
-  background-image: linear-gradient(#4A4945, #3F3E3B);
+  background-image: linear-gradient(#4a4945, #3f3e3b);
   color: #fff;
   border-radius: 1em;
   border: none;
-  padding: .5em 1em;
-  margin: .5em;
+  padding: 0.5em 1em;
+  margin: 0.5em;
   display: flex;
   justify-content: center;
   align-self: center;
@@ -134,7 +134,7 @@ input.prompt:focus {
 
 .prompt-btn img {
   width: 1em;
-  margin-left: .5em;
+  margin-left: 0.5em;
   align-self: center;
 }
 
@@ -143,11 +143,11 @@ input.prompt:focus {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #3F3E3B;
+  background: rgba(0, 0, 0, 0.6);
   font-size: 1.4em;
   width: 30px;
   height: 40px;
-  margin: .3em;
+  margin: 0.3em;
 }
 
 .language-option {
@@ -161,20 +161,20 @@ input.prompt:focus {
   appearance: none;
   -webkit-appearance: none;
   border-radius: 50%;
-  margin: 0 .8em;
-  height: .9em;
-  width: .9em;
+  margin: 0 0.8em;
+  height: 0.9em;
+  width: 0.9em;
   /* center */
-  background: #F0F0C9;
+  background: #f0f0c9;
   /* mid */
-  border: 2px solid #0C585A;
+  border: 2px solid #0c585a;
   /* outer */
-  box-shadow: 0 0 0 1px #F0F0C9;
+  box-shadow: 0 0 0 1px #f0f0c9;
 }
 
 .language-option input.active-radio:hover {
   /* mid */
-  border: 3px solid #0C595A;
+  border: 3px solid #0c595a;
 }
 
 .language-option input:checked {
@@ -185,7 +185,7 @@ input.prompt:focus {
 }
 
 .language-option label {
-  transform: translateY(-.5px);
+  transform: translateY(-0.5px);
   color: #ddd;
 }
 
