@@ -185,7 +185,7 @@ export default function GamePanel(props) {
   const translateButton = () => {
     return (
       <div className="prompt-row">
-        {promptBtn("Translate to something", () => submitText())}
+        {promptBtn("Translate this", () => submitText())}
       </div>
     );
   };
